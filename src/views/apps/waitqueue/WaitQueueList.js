@@ -11,7 +11,7 @@ import {
   DropdownItem,
   DropdownToggle,
 } from "reactstrap";
-import axiosConfig from "../../../axiosConfig";
+// import axiosConfig from "../../../axiosConfig";
 import axios from "axios";
 import { ContextLayout } from "../../../utility/context/Layout";
 import { AgGridReact } from "ag-grid-react";
@@ -22,7 +22,7 @@ import "../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
 import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
 
-class ProductList extends React.Component {
+class WaitQueueList extends React.Component {
   state = {
     rowData: [],
     paginationPageSize: 20,
@@ -47,97 +47,102 @@ class ProductList extends React.Component {
       },
 
       {
-        headerName: "Product Name",
-        field: "product?.productname",
+        headerName: "Name",
+        field: "name",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.product?.productname}</span>
+              <span>{params.data.firstname} {params.data.lastname}</span>
             </div>
           );
         },
       },
 
       {
-        headerName: "Thumbnail Image",
-        field: "product?.image[0]",
-        filter: true,
-        width: 200,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <img
-                src={params.data.product?.image[0]}
-                alt="img"
-                className="w-50 h-50 rounded-0"
-              />
-            </div>
-          );
-        },
-      },
-
-      {
-        headerName: "Category Name",
-        field: "category?.name",
+        headerName: "Mobile Number",
+        field: "mobile",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>{params.data.category?.name}</span>
+              <span>{params.data.email}</span>
             </div>
           );
         },
       },
       {
-        headerName: "Selling Price",
-        field: "price",
+        headerName: "DOB",
+        field: "dob",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
-            <div>
-              <span>{params.data.price}</span>
+            <div className="d-flex align-items-center cursor-pointer">
+              <span>{params.data.email}</span>
             </div>
           );
         },
       },
 
       {
-        headerName: "Action",
+        headerName: "Gender",
+        field: "",
+        filter: true,
+        width: 200,
+        cellRendererFramework: (params) => {
+          return (
+            <div className="d-flex align-items-center cursor-pointer">
+              <span>{params.data.email}</span>
+            </div>
+          );
+        },
+      },
+
+      {
+        headerName: "Wait Queue Type",
+        field: "",
+        filter: true,
+        width: 200,
+        cellRendererFramework: (params) => {
+          return (
+            <div className="d-flex align-items-center cursor-pointer">
+              <span>{params.data.email}</span>
+            </div>
+          );
+        },
+      },
+
+      {
+        headerName: "Actions",
         field: "sortorder",
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div className="actions cursor-pointer">
-              {/* <Route
-                render={({ history }) => (
-                  <Eye
-                    className="mr-50"
-                    size="25px"
-                    color="green"
-                    onClick={() =>
-                      history.push(
-                        `/app/userride/viewUserRide/${params.data._id}`
-                      )
-                    }
-                  />
-                )}
-              />
-              <Route
-                render={({ history }) => (
-                  <Edit
-                    className="mr-50"
-                    size="25px"
-                    color="blue"
-                    onClick={() =>
-                      history.push("/app/productmanager/editproduct")
-                    }
-                  />
-                )}
-              /> */}
+              <Route render={({ history}) => (
+              <Eye
+                className="mr-50"
+                size="25px"
+                color="green"
+                onClick={() =>
+                history.push(`/app/userride/viewUserRide/${params.data._id}`       )
+              }
+            />
+          )}
+        />
+        <Route render={({ history}) => (
+              <Edit
+                className="mr-50"
+                size="25px"
+                color="blue"
+                onClick={() => history.push("/app/userride/editUserRide"  )
+              }
+            />
+          )}
+        />
               <Trash2
                 className="mr-50"
                 size="25px"
@@ -155,17 +160,28 @@ class ProductList extends React.Component {
     ],
   };
   async componentDidMount() {
-    let astroId = localStorage.getItem("astroId");
-    await axiosConfig.get(`/user/productlist/${astroId}`).then((response) => {
+    let { id } = this.props.match.params;
+
+    await axios.get(`http://3.108.185.7:4000/user/view_onecust/${id}`)
+    .then((response) => {
       let rowData = response.data.data;
       console.log(rowData);
       this.setState({ rowData });
     });
-  }
+
+
+    await axios
+    .get("http://3.108.185.7:4000/admin/allcustomer")
+    .then((response) => {
+        let rowData = response.data.data;
+        console.log(rowData);
+        this.setState({ rowData });
+      });
+    }
 
   async runthisfunction(id) {
     console.log(id);
-    await axios.get(`/${id}`).then(
+    await axios.get(`http://3.108.185.7:4000/admin/delcustomer/${id}`).then(
       (response) => {
         console.log(response);
       },
@@ -196,39 +212,34 @@ class ProductList extends React.Component {
     }
   };
   render() {
+
+
     const { rowData, columnDefs, defaultColDef } = this.state;
     return (
+      console.log(rowData),
+      (
       <div>
         <Breadcrumbs
-          breadCrumbTitle="Products"
-          breadCrumbParent="Home"
-          breadCrumbActive="Products"
-        />
+            breadCrumbTitle="Wait Queue List"
+            breadCrumbParent="Home"
+            breadCrumbActive="Wait Queue List"
+          />
 
         <Row className="app-user-list">
           <Col sm="12"></Col>
-          <Col sm="12">
-            <Card>
-              <Row className="m-2">
-                <Col>
-                  <h1 sm="6" className="float-left">
-                    Product List
-                  </h1>
-                </Col>
-                <Col>
-                  <Route
-                    render={({ history }) => (
-                      <Button
-                        className=" btn btn-success float-right"
-                        onClick={() => history.push("/app/products/addproduct")}
-                      >
-                        Add New
-                      </Button>
-                    )}
-                  />
-                </Col>
-              </Row>
-              <CardBody>
+            <Col sm="12">
+              <Card>
+                <Row className="m-2">
+                  <Col>
+                    <h1 sm="6" className="float-left">
+                           Wait Queue List
+                    </h1>
+                  </Col>
+              <Col>
+
+              </Col>
+                </Row>
+                <CardBody>
                 {this.state.rowData === null ? null : (
                   <div className="ag-theme-material w-100 my-2 ag-grid-table">
                     <div className="d-flex flex-wrap justify-content-between align-items-center">
@@ -291,8 +302,7 @@ class ProductList extends React.Component {
                         <div className="export-btn">
                           <Button.Ripple
                             color="primary"
-                            onClick={() => this.gridApi.exportDataAsCsv()}
-                          >
+                            onClick={() => this.gridApi.exportDataAsCsv()}>
                             Export as CSV
                           </Button.Ripple>
                         </div>
@@ -324,7 +334,8 @@ class ProductList extends React.Component {
           </Col>
         </Row>
       </div>
+      )
     );
   }
 }
-export default ProductList;
+export default WaitQueueList;

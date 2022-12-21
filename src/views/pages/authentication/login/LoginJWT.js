@@ -1,81 +1,84 @@
-import React from 'react'
+import React from "react";
 // import { Link } from 'react-router-dom'
-import { CardBody, FormGroup, Form, Input, Button, Label } from 'reactstrap'
-import { Phone } from 'react-feather'
-import { loginWithJWT } from '../../../../redux/actions/auth/loginActions'
-import { connect } from 'react-redux'
-import axios from 'axios'
-import { Route } from 'react-router-dom'
-import swal from 'sweetalert'
+import { CardBody, FormGroup, Form, Input, Button, Label } from "reactstrap";
+import { Phone } from "react-feather";
+import { loginWithJWT } from "../../../../redux/actions/auth/loginActions";
+import { connect } from "react-redux";
+import axios from "axios";
+import { Route } from "react-router-dom";
+import swal from "sweetalert";
 // import { history } from '../../../../history'
+import axiosConfig from "../../../../axiosConfig";
 
 class LoginJWT extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      mobile: '',
-      otpMsg: '',
-      otp: '',
-    }
+      mobile: "",
+      otpMsg: "",
+      otp: "",
+    };
   }
   handlechange = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
   handleLogin = (e) => {
-    e.preventDefault()
-    axios
-      .post('http://13.233.228.168:8000/user/loginsendotp', {
+    e.preventDefault();
+    axiosConfig
+      .post("/user/loginsendotp", {
         mobile: this.state.mobile,
       })
       .then((response) => {
-        console.log(response.data)
-        this.setState({ otpMsg: response.data.msg })
-        if (response.data.msg === 'Waiting for Admin Approval') {
-          swal('Waiting for Admin Approval')
+        console.log(response.data);
+        this.setState({ otpMsg: response.data.msg });
+        if (response.data.msg === "Waiting for Admin Approval") {
+          swal("Waiting for Admin Approval");
         }
       })
       .catch((error) => {
-        console.log(error.response)
+        console.log(error.response);
         swal(
-          'error!',
-          'Invalied! Please enter valied Phone No. or Password',
-          'error',
-        )
-      })
-  }
+          "error!",
+          "Invalied! Please enter valied Phone No. or Password",
+          "error"
+        );
+      });
+  };
   handleOtp = (e) => {
-    e.preventDefault()
-    axios
-      .post('http://13.233.228.168:8000/user/loginVerify', {
+    e.preventDefault();
+    axiosConfig
+      .post("/user/loginVerify", {
         mobile: this.state.mobile,
         otp: this.state.otp,
       })
 
       .then((response) => {
-        console.log(response.data)
-        console.log(response.data._id)
-        if (response.data.msg === 'otp verified') {
-          localStorage.setItem('astroId', response.data._id)
-          localStorage.setItem('user_id', response.data.data._id)
-          window.location.replace('/#/')
-          swal('Login Successfull')
+        console.log(response.data);
+        console.log(response.data._id);
+        if (response.data.msg === "otp verified") {
+          swal("Login Successfull");
+          localStorage.setItem("astroId", response.data._id);
+          // localStorage.setItem("user_id", response.data.data._id);
+          // this.props.history.push("/");
+          window.location.replace("/#/");
+          // swal("Login Successfull");
         }
       })
       .catch((error) => {
-        console.log(error.response)
+        console.log(error.response.data._id);
         swal(
-          'error!',
-          'Invalied! Please enter valied Phone No. or Password',
-          'error',
-        )
-      })
-  }
+          "error!",
+          "Invalied! Please enter valied Phone No. or Password",
+          "error"
+        );
+      });
+  };
 
   render() {
     return (
       <React.Fragment>
-        {this.state.otpMsg === 'otp Send Successfully' ? (
+        {this.state.otpMsg === "otp Send Successfully" ? (
           <CardBody className="pt-1">
             <Form onSubmit={this.handleOtp}>
               <FormGroup className="form-label-group position-relative has-icon-left">
@@ -133,12 +136,12 @@ class LoginJWT extends React.Component {
           </CardBody>
         )}
       </React.Fragment>
-    )
+    );
   }
 }
 const mapStateToProps = (state) => {
   return {
     values: state.auth.login,
-  }
-}
-export default connect(mapStateToProps, { loginWithJWT })(LoginJWT)
+  };
+};
+export default connect(mapStateToProps, { loginWithJWT })(LoginJWT);

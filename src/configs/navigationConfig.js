@@ -1,35 +1,35 @@
-import React from 'react'
-import * as Icon from 'react-feather'
+import React from "react";
+import * as Icon from "react-feather";
 const navigationConfig = [
   {
-    id: 'dashboard',
-    title: 'Dashboard',
-    type: 'item',
+    id: "dashboard",
+    title: "Dashboard",
+    type: "item",
     icon: <Icon.Home size={20} />,
-    permissions: ['admin', 'editor'],
-    navLink: '/',
+    permissions: ["admin", "editor"],
+    navLink: "/",
   },
   {
-    type: 'groupHeader',
-    groupTitle: 'Component',
+    type: "groupHeader",
+    groupTitle: "Component",
   },
 
   {
-    id: 'requestuser',
-    title: 'Request User List',
-    type: 'item',
+    id: "requestuser",
+    title: "Request User List",
+    type: "item",
     icon: <Icon.Users size={20} />,
-    permissions: ['admin', 'editor'],
-    navLink: '/app/userrequest/userrequestlist',
+    permissions: ["admin", "editor"],
+    navLink: "/app/userrequest/userrequestlist",
   },
 
   {
-    id: 'callhistory',
-    title: 'Call History',
-    type: 'item',
+    id: "callhistory",
+    title: "Call History",
+    type: "item",
     icon: <Icon.Phone size={20} />,
-    permissions: ['admin', 'editor'],
-    navLink: '/app/historycall/callhistory',
+    permissions: ["admin", "editor"],
+    navLink: "/app/historycall/callhistory",
   },
 
   // {
@@ -41,47 +41,55 @@ const navigationConfig = [
   //   navLink: '/app/chat/userchatlist',
   // },
   {
-    id: 'chat',
-    title: 'Chat',
-    type: 'item',
+    id: "chat",
+    title: "Chat",
+    type: "item",
     icon: <Icon.MessageSquare size={16} />,
-    navLink: '/chat',
-    permissions: ['admin', 'editor'],
+    navLink: "/chat",
+    permissions: ["admin", "editor"],
   },
 
   {
-    id: 'products',
-    title: 'Product',
-    type: 'collapse',
+    id: "products",
+    title: "Product",
+    type: "collapse",
     icon: <Icon.Box size={20} />,
     children: [
       {
-        id: 'productlist',
-        title: 'Product List',
-        type: 'item',
+        id: "productlist",
+        title: "Product List",
+        type: "item",
         icon: <Icon.Circle size={12} />,
-        permissions: ['admin', 'editor'],
-        navLink: '/app/products/productlist',
+        permissions: ["admin", "editor"],
+        navLink: "/app/products/productlist",
       },
     ],
   },
 
   {
-    id: 'askuserquestion',
-    title: 'Users Ask Question',
-    type: 'item',
+    id: "askuserquestion",
+    title: "Users Ask Question",
+    type: "item",
     icon: <Icon.HelpCircle size={20} />,
-    permissions: ['admin', 'editor'],
-    navLink: '/app/askquestion/useraskqueslist',
+    permissions: ["admin", "editor"],
+    navLink: "/app/askquestion/useraskqueslist",
+  },
+  {
+    id: "waitqueue",
+    title: "Wait Queue List",
+    type: "item",
+    icon: <Icon.HelpCircle size={20} />,
+    permissions: ["admin", "editor"],
+    navLink: "/app/waitqueue/WaitQueueList",
   },
 
   {
-    id: 'orderhistory',
-    title: 'Order History',
-    type: 'item',
+    id: "orderhistory",
+    title: "Order History",
+    type: "item",
     icon: <Icon.Box size={20} />,
-    permissions: ['admin', 'editor'],
-    navLink: '/app/orderhistory/orderhisList',
+    permissions: ["admin", "editor"],
+    navLink: "/app/orderhistory/orderhisList",
   },
 
   // {
@@ -103,63 +111,63 @@ const navigationConfig = [
   // },
 
   {
-    id: 'reportstatus',
-    title: 'Report',
-    type: 'collapse',
+    id: "reportstatus",
+    title: "Report",
+    type: "collapse",
     icon: <Icon.File size={20} />,
     children: [
       {
-        id: 'earning',
-        title: 'Earning',
-        type: 'item',
+        id: "earning",
+        title: "Earning",
+        type: "item",
         icon: <Icon.Circle size={12} />,
-        permissions: ['admin', 'editor'],
-        navLink: '/app/report/earningreport',
+        permissions: ["admin", "editor"],
+        navLink: "/app/report/earningreport",
       },
       {
-        id: 'callreport',
-        title: 'Call Report',
-        type: 'item',
+        id: "callreport",
+        title: "Call Report",
+        type: "item",
         icon: <Icon.Circle size={12} />,
-        permissions: ['admin', 'editor'],
-        navLink: '/app/report/callreport',
+        permissions: ["admin", "editor"],
+        navLink: "/app/report/callreport",
       },
       {
-        id: 'payout',
-        title: 'Payout',
-        type: 'item',
+        id: "payout",
+        title: "Payout",
+        type: "item",
         icon: <Icon.Circle size={12} />,
-        permissions: ['admin', 'editor'],
-        navLink: '/app/report/payoutreport',
+        permissions: ["admin", "editor"],
+        navLink: "/app/report/payoutreport",
       },
     ],
   },
 
   {
-    id: 'withdrawalRequests',
-    title: 'Withdrawal Requests',
-    type: 'item',
+    id: "withdrawalRequests",
+    title: "Withdrawal Requests",
+    type: "item",
     icon: <Icon.RefreshCcw size={20} />,
-    permissions: ['admin', 'editor'],
-    navLink: '/app/driver/withdrawalRequests',
+    permissions: ["admin", "editor"],
+    navLink: "/app/driver/withdrawalRequests",
   },
 
   {
-    id: 'transactionHistory',
-    title: 'Transaction History',
-    type: 'item',
+    id: "transactionHistory",
+    title: "Transaction History",
+    type: "item",
     icon: <Icon.DollarSign size={20} />,
-    permissions: ['admin', 'editor'],
-    navLink: '/app/transaction/transactionHistory',
+    permissions: ["admin", "editor"],
+    navLink: "/app/transaction/transactionHistory",
   },
 
   {
-    id: 'faquserlist',
-    title: 'User FAQ',
-    type: 'item',
+    id: "faquserlist",
+    title: "User FAQ",
+    type: "item",
     icon: <Icon.HelpCircle size={20} />,
-    permissions: ['admin', 'editor'],
-    navLink: '/app/user/faquserlist',
+    permissions: ["admin", "editor"],
+    navLink: "/app/user/faquserlist",
   },
 
   // {
@@ -526,5 +534,5 @@ const navigationConfig = [
   //   permissions: ["admin", "editor"],
   //   navLink: "/app/termscondition/TermConditionList",
   // },
-]
-export default navigationConfig
+];
+export default navigationConfig;

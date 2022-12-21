@@ -38,9 +38,7 @@ const NavbarUser = () => {
       try {
         //axiosConfig.get(`/dlt_startup/${id}`)
         const astroId = localStorage.getItem("astroId");
-        const data = await axiosConfig.get(
-          `http://13.233.228.168:8000/admin/getoneAstro/${astroId}`
-        );
+        const data = await axiosConfig.get(`/admin/getoneAstro/${astroId}`);
         // /admin/viewoneadmin/${userId}
         console.log(data.data.data);
         setProfilepic(data.data.data);
@@ -103,6 +101,3 @@ const NavbarUser = () => {
   );
 };
 export default NavbarUser;
-
-
-

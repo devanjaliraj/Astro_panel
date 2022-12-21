@@ -9,7 +9,6 @@ import {
   CustomInput,
   Label,
   Button,
-  
 } from "reactstrap";
 //import axios from "axios";
 import axiosConfig from "../../../axiosConfig";
@@ -40,11 +39,11 @@ export class AddProduct extends Component {
   // };
 
   componentDidUpdate() {
-    //console.log(this.state.category);
+    // console.log(this.state.category);
+    let { id } = this.props.match.params;
+
     axiosConfig
-      .get(
-        `/user/productbycategory/${this.state.category}`
-      )
+      .get(`/user/productbycategory/${this.state.category}`)
       .then((response) => {
         console.log(response.data.data);
         this.setState({ productList: response.data.data });
@@ -76,12 +75,13 @@ export class AddProduct extends Component {
 
   submitHandler = (e) => {
     e.preventDefault();
-    Axios.post(`/user/add_astro_product`, {
-      astroid: localStorage.getItem("astroId"),
-      product: this.state.product,
-      category: this.state.category,
-      price: this.state.mrp,
-    })
+    axiosConfig
+      .post(`/user/add_astro_product`, {
+        astroid: localStorage.getItem("astroId"),
+        product: this.state.product,
+        category: this.state.category,
+        price: this.state.mrp,
+      })
       .then((response) => {
         console.log(response.data.data);
         if (response.data.message === "success") {
