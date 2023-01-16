@@ -58,34 +58,33 @@ class Chat extends React.Component {
   handleReceiverSidebar = status => {
     status === "open"
       ? this.setState({
-          receiverProfile: true
-        })
+        receiverProfile: true
+      })
       : this.setState({
-          receiverProfile: false
-        })
+        receiverProfile: false
+      })
   }
 
   handleUserSidebar = status => {
     status === "open"
       ? this.setState({
-          userSidebar: true
-        })
+        userSidebar: true
+      })
       : this.setState({
-          userSidebar: false
-        })
+        userSidebar: false
+      })
   }
 
   render() {
     return (
       <div className="chat-application position-relative">
         <div
-          className={`chat-overlay ${
-            this.state.receiverProfile ||
+          className={`chat-overlay ${this.state.receiverProfile ||
             this.state.userSidebar ||
             this.state.sidebarOpen
-              ? "show"
-              : "d-none"
-          }`}
+            ? "show"
+            : "d-none"
+            }`}
           onClick={() => {
             this.handleReceiverSidebar("close")
             this.handleUserSidebar("close")

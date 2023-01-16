@@ -6,23 +6,26 @@ import PerfectScrollbar from "react-perfect-scrollbar"
 import { connect } from "react-redux"
 import { togglePinned, sendMessage } from "../../../redux/actions/chat/index"
 import userImg from "../../../assets/img/portrait/small/avatar-s-11.jpg"
+import axiosConfig from "../../../axiosConfig"
 
 class ChatLog extends React.Component {
-  static getDerivedStateFromProps(props, state) {
-    if (
-      props.activeUser !== state.activeChat ||
-      props.activeChat !== state.activeChat
-    ) {
-      return {
-        activeUser: props.activeUser,
-        activeChat: props.activeChat
-      }
-    }
-    // Return null if the state hasn't changed
-    return null
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   if (
+  //     props.activeUser !== state.activeChat ||
+  //     props.activeChat !== state.activeChat
+  //   ) {
+  //     return {
+  //       activeUser: props.activeUser,
+  //       activeChat: props.activeChat
+  //     }
+  //   }
+  //   // Return null if the state hasn't changed
+  //   return null
+  // }
   state = {
+    chatsContacts: [],
     msg: "",
+    type: "",
     activeUser: null,
     activeChat: null
   }
@@ -36,8 +39,34 @@ class ChatLog extends React.Component {
     }
   }
   componentDidMount() {
-    this.scrollToBottom()
+    // let { id } = this.props.match.params;
+
+    // let astroid = JSON.parse(l;ocalStorage.getItem("astroId"));
+    let astroId = localStorage.getItem("astroId");
+    // console.log(astroId);
+    axiosConfig
+      .get(`/user/allchatwithAstro/${astroId}`)
+      // .get(`/user/astrogetRoomid/${id}`)
+      .then((response) => {
+        console.log("chatsContacts", response.data.data);
+        this.setState({
+          chatsContacts: response.data.data,
+          // msg: response.data.data.msg,
+          // type: response.data.data.type,
+
+        });
+
+        // if (response.data.status === true) {
+        //   this.getChatContents()
+        // }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }
+  // componentDidMount() {
+  //   this.scrollToBottom()
+  // }
   componentDidUpdate() {
     this.scrollToBottom()
   }
@@ -58,74 +87,47 @@ class ChatLog extends React.Component {
   }
 
   render() {
-    const { activeUser } = this.state
-    let activeUserUid = activeUser && activeUser.uid ? activeUser.uid : null,
+    console.log(this.state.activeUser)
+
+    const { chatsContacts, activeUser } = this.state
+    let activeUser_id = activeUser && activeUser._id ? activeUser._id : null,
       activeChat =
-        activeUser && activeUser.uid
-          ? this.props.chat.chats[activeUserUid]
+        activeUser && activeUser._id
+          ? this.props.chat.chats[activeUser_id]
           : null
 
     let renderChats =
       activeChat && activeChat !== undefined && activeChat.msg
         ? activeChat.msg.map((chat, i) => {
-            let renderSentTime = () => {
-              if (
-                i > 0 &&
-                !this.handleTime(chat.time, activeChat.msg[i - 1].time)
-              ) {
-                return (
-                  <div className="divider">
-                    <div className="divider-text">
-                      {new Date().getDate() +
-                        " " +
-                        new Date().toLocaleString("default", {
-                          month: "short"
-                        })}
-                    </div>
+          let renderSentTime = () => {
+            if (
+              i > 0 &&
+              !this.handleTime(chat.time, activeChat.msg[i - 1].time)
+            ) {
+              return (
+                <div className="divider">
+                  <div className="divider-text">
+                    {new Date().getDate() +
+                      " " +
+                      new Date().toLocaleString("default", {
+                        month: "short"
+                      })}
                   </div>
-                )
-              }
+                </div>
+              )
             }
-            let renderAvatar = () => {
-              if (i > 0) {
-                if (
-                  chat.isSent === true &&
-                  activeChat.msg[i - 1].isSent !== true
-                ) {
-                  return (
-                    <div className="chat-avatar">
-                      <div className="avatar m-0">
-                        <img
-                          src={userImg}
-                          alt="chat avatar"
-                          height="40"
-                          width="40"
-                        />
-                      </div>
-                    </div>
-                  )
-                } else if (chat.isSent !== true) {
-                  return (
-                    <div className="chat-avatar">
-                      <div className="avatar m-0">
-                        <img
-                          src={activeUser.photoURL}
-                          alt="chat avatar"
-                          height="40"
-                          width="40"
-                        />
-                      </div>
-                    </div>
-                  )
-                } else {
-                  return ""
-                }
-              } else {
+          }
+          let renderAvatar = () => {
+            if (i > 0) {
+              if (
+                chat.isSent === true &&
+                activeChat.msg[i - 1].isSent !== true
+              ) {
                 return (
                   <div className="chat-avatar">
                     <div className="avatar m-0">
                       <img
-                        src={chat.isSent ? userImg : activeUser.photoURL}
+                        src={userImg}
                         alt="chat avatar"
                         height="40"
                         width="40"
@@ -133,32 +135,59 @@ class ChatLog extends React.Component {
                     </div>
                   </div>
                 )
+              } else if (chat.isSent !== true) {
+                return (
+                  <div className="chat-avatar">
+                    <div className="avatar m-0">
+                      <img
+                        src={activeUser.photoURL}
+                        alt="chat avatar"
+                        height="40"
+                        width="40"
+                      />
+                    </div>
+                  </div>
+                )
+              } else {
+                return ""
               }
-            }
-            return (
-              <React.Fragment key={i}>
-                {renderSentTime()}
-                <div
-                  className={`chat ${
-                    chat.isSent !== true ? "chat-left" : "chat-right"
-                  }`}>
-                  {renderAvatar()}
-                  <div className="chat-body">
-                    <div className="chat-content">{chat.textContent}</div>
+            } else {
+              return (
+                <div className="chat-avatar">
+                  <div className="avatar m-0">
+                    <img
+                      src={chat.isSent ? userImg : activeUser.photoURL}
+                      alt="chat avatar"
+                      height="40"
+                      width="40"
+                    />
                   </div>
                 </div>
-              </React.Fragment>
-            )
-          })
+              )
+            }
+          }
+          return (
+            <React.Fragment key={i}>
+              {renderSentTime()}
+              <div
+                className={`chat ${chat.isSent !== true ? "chat-left" : "chat-right"
+                  }`}>
+                {renderAvatar()}
+                <div className="chat-body">
+                  <div className="chat-content">{chat.textContent}</div>
+                </div>
+              </div>
+            </React.Fragment>
+          )
+        })
         : null
 
     return (
       <div className="content-right">
         <div className="chat-app-window">
           <div
-            className={`start-chat-area ${
-              activeUser !== null ? "d-none" : "d-flex"
-            }`}>
+            className={`start-chat-area ${activeUser !== null ? "d-none" : "d-flex"
+              }`}>
             <span className="mb-1 start-chat-icon">
               <MessageSquare size={50} />
             </span>
@@ -175,9 +204,8 @@ class ChatLog extends React.Component {
             </h4>
           </div>
           <div
-            className={`active-chat ${
-              activeUser === null ? "d-none" : "d-block"
-            }`}>
+            className={`active-chat ${activeUser === null ? "d-none" : "d-block"
+              }`}>
             <div className="chat_navbar">
               <header className="chat_header d-flex justify-content-between align-items-center p-1">
                 <div className="d-flex align-items-center">
@@ -197,16 +225,15 @@ class ChatLog extends React.Component {
                     />
                     <span
                       className={`
-                    ${
-                      activeUser !== null &&
-                      activeUser.status === "do not disturb"
-                        ? "avatar-status-busy"
-                        : activeUser !== null && activeUser.status === "away"
-                        ? "avatar-status-away"
-                        : activeUser !== null && activeUser.status === "offline"
-                        ? "avatar-status-offline"
-                        : "avatar-status-online"
-                    }
+                    ${activeUser !== null &&
+                          activeUser.status === "do not disturb"
+                          ? "avatar-status-busy"
+                          : activeUser !== null && activeUser.status === "away"
+                            ? "avatar-status-away"
+                            : activeUser !== null && activeUser.status === "offline"
+                              ? "avatar-status-offline"
+                              : "avatar-status-online"
+                        }
                     `}
                     />
                   </div>
@@ -219,7 +246,7 @@ class ChatLog extends React.Component {
                   onClick={() => {
                     if (activeChat) {
                       this.props.togglePinned(
-                        activeUser.uid,
+                        activeUser._id,
                         !activeChat.isPinned
                       )
                     }
@@ -251,9 +278,9 @@ class ChatLog extends React.Component {
                 onSubmit={e => {
                   e.preventDefault()
                   this.handleSendMessage(
-                    activeUser.uid,
+                    activeUser._id,
                     false,
-                    this.state.msg,
+                    this.state.data?.msg,
                     activeUser
                   )
                 }}>
@@ -261,7 +288,7 @@ class ChatLog extends React.Component {
                   type="text"
                   className="message mr-1 ml-50"
                   placeholder="Type your message"
-                  value={this.state.msg}
+                  value={this.state.data?.msg}
                   onChange={e => {
                     e.preventDefault()
                     this.setState({

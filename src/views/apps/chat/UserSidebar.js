@@ -27,9 +27,8 @@ class UserSidebar extends React.Component {
     const status = this.state.status
     return (
       <div
-        className={`chat-profile-sidebar ${
-          this.props.userProfile ? "show" : null
-        }`}
+        className={`chat-profile-sidebar ${this.props.userProfile ? "show" : null
+          }`}
       >
         <header className="chat-profile-header">
           <div
@@ -42,15 +41,14 @@ class UserSidebar extends React.Component {
             <div className="avatar">
               <img src={userImg} alt="User Profile" height="66" width="66" />
               <span
-                className={`${
-                  status === "offline"
-                    ? "avatar-status-offline"
-                    : status === "dnd"
+                className={`${status === "offline"
+                  ? "avatar-status-offline"
+                  : status === "dnd"
                     ? "avatar-status-busy"
                     : status === "away"
-                    ? "avatar-status-away"
-                    : "avatar-status-online"
-                } avatar-status-lg`}
+                      ? "avatar-status-away"
+                      : "avatar-status-online"
+                  } avatar-status-lg`}
               />
             </div>
             <h4 className="chat-user-name">John Doe</h4>

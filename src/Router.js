@@ -24,6 +24,8 @@ const TermConditionList = lazy(() =>
 );
 
 // userchat
+
+const ConversationList = lazy(() => import("./views/apps/conversation/ConversationList"));
 const chatlist = lazy(() => import("./views/apps/userchat/ChatList"));
 
 const chat = lazy(() => import("./views/apps/chat/Chat"));
@@ -374,8 +376,8 @@ const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
               fullLayout === true
                 ? context.fullLayout
                 : context.state.activeLayout === "horizontal"
-                ? context.horizontalLayout
-                : context.VerticalLayout;
+                  ? context.horizontalLayout
+                  : context.VerticalLayout;
             return (
               <LayoutTag {...props} permission={props.user}>
                 <Suspense fallback={<Spinner />}>
@@ -423,6 +425,9 @@ class AppRouter extends React.Component {
             <AppRoute path="/app/user/userList" component={UserList} />
             <AppRoute path="/app/user/addUser" component={AddUser} />
             <AppRoute path="/app/userride/editUser" component={EditUser} />
+
+            <AppRoute path="/app/conversation/conversationList" component={ConversationList} />
+
             <AppRoute path="/app/user/viewUser" component={ViewUser} />
             <AppRoute path="/chat" component={chat} />
             <AppRoute path="/userchat/chatlist" component={chatlist} />

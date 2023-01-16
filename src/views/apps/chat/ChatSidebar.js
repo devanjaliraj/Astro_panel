@@ -10,29 +10,32 @@ import {
   markSeenAllMessages,
 } from '../../../redux/actions/chat/index'
 import userImg from '../../../assets/img/portrait/small/avatar-s-11.jpg'
+import axiosConfig from "../../../axiosConfig"
+
+
+
 
 class ChatSidebar extends React.Component {
-  static getDerivedStateFromProps(props, state) {
-    if (
-      props.chat.chatContacts.length !== state.chatContacts ||
-      props.chat.contacts.length !== state.contacts ||
-      props.chat.chats.length !== state.chats ||
-      props.chat.status !== state.status
-    ) {
-      return {
-        chatsContacts: props.chat.chatContacts,
-        contacts: props.chat.contacts,
-        chats: props.chat.chats,
-        status: props.chat.status,
-      }
-    }
-    // Return null if the state hasn't changed
-    return null
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   if (
+  //     props.chat.chatContacts.length !== state.chatContacts ||
+  //     props.chat.chats.length !== state.chats ||
+  //     props.chat.status !== state.status
+  //   ) {
+  //     return {
+  //       chatsContacts: props.chat.chatContacts,
+  //       chats: props.chat.chats,
+  //       status: props.chat.status,
+  //     }
+  //   }
+  //   // Return null if the state hasn't changed
+  //   return null
+  // }
+
   state = {
     chatsContacts: [],
-    contacts: [],
-    messages: [],
+    chatsArr: [],
+
     status: null,
     value: '',
   }
@@ -41,16 +44,47 @@ class ChatSidebar extends React.Component {
     this.props.getChats()
     this.props.getContactChats()
   }
+  componentDidMount() {
+    // let { id } = this.props.match.params;
 
-  async componentDidMount() {
-    await this.getChatContents()
-    this.setState({
-      chatsContacts: this.props.chat.chatContacts,
-      contacts: this.props.chat.contacts,
-      chats: this.props.chat.chats,
-      status: this.props.chat.status,
-    })
+    // let astroid = JSON.parse(l;ocalStorage.getItem("astroId"));
+    let astroId = localStorage.getItem("astroId");
+    // console.log(astroId);
+    axiosConfig
+      .get(`/user/astrogetRoomid/${astroId}`)
+      // .get(`/user/astrogetRoomid/${id}`)
+      .then((response) => {
+        console.log("chatsContacts", response.data.data);
+        this.setState({ chatsArr: response.data.data });
+
+        if (response.data.status === true) {
+          this.getChatContents()
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }
+  // chatsContacts: this.props.chat.chatContacts,
+  // chats: this.props.chat.chats,
+  // status: this.props.chat.status,
+  // chatsContacts: response.data?.data.chatsContacts,
+  // roomid: response.data.data?.roomid,
+  // msg: response.data.data?.msg,
+  // type: response.data.data?.type,
+  // async componentDidMount() {
+
+  //   await
+  //     this.getChatContents()
+  //   this.setState({
+  //     chatsContacts: this.props.chat.chatContacts,
+
+  //     chats: this.props.chat.chats,
+  //     status: this.props.chat.status,
+  //   })
+
+  // }
+
 
   handleOnChange = (e) => {
     this.setState({ value: e.target.value })
@@ -58,119 +92,68 @@ class ChatSidebar extends React.Component {
   }
 
   render() {
-    const { contacts, chatsContacts, chats, status, value } = this.state
-    const contactsArr = value.length
-      ? this.props.chat.filteredContacts
-      : contacts
+    console.log(this.state.chatsArr)
+    const { chatsContacts, ChatLog, status, value } = this.state
+
     const chatsArr = value.length
       ? this.props.chat.filteredChats
       : chatsContacts
-    let renderContacts =
-      contactsArr.length > 0
-        ? contactsArr.map((contact) => (
-            <li
-              key={contact.uid}
-              onClick={() => {
-                this.props.handleActiveChat(
-                  contact.uid,
-                  contact,
-                  chats[contact.uid],
-                )
-                this.props.markSeenAllMessages(contact.uid)
-                this.props.mainSidebar(false)
-              }}
-            >
-              <div className="pr-1">
-                <span className="avatar avatar-md m-0">
-                  <img
-                    src={contact.photoURL}
-                    alt={contact.displayName}
-                    height="38"
-                    width="38"
-                  />
-                </span>
-              </div>
-              <div className="user-chat-info">
-                <div className="contact-info">
-                  <h5 className="text-bold-600 mb-0">{contact.displayName}</h5>
-                  <p className="truncate">{contact.about}</p>
-                </div>
-              </div>
-            </li>
-          ))
-        : null
+
     let renderChats =
-      chatsArr && Array.isArray(chatsArr)
-        ? chatsArr.map((chat) => {
-            let lastMsg =
-                chats[chat.uid] && chats[chat.uid].msg
-                  ? chats[chat.uid].msg.slice(-1)[0]
-                  : null,
-              lastMsgDate = new Date(
-                lastMsg && lastMsg.time ? lastMsg.time : null,
-              ),
-              lastMsgMonth = lastMsgDate.toLocaleString('default', {
-                month: 'short',
-              }),
-              lastMsgDay = lastMsgDate.getDate()
-            let pendingMsg =
-              chats[chat.uid] && chats[chat.uid].msg
-                ? chats[chat.uid].msg.filter(
-                    (i) => i.isSeen === false && i.isSent !== true,
-                  ).length
-                : null
-            let activeID =
-              chats[chat.uid] !== undefined ? chats[chat.uid] : null
-            return (
-              <li
-                key={chat.uid}
-                onClick={() => {
-                  this.props.handleActiveChat(chat.uid, chat, activeID)
-                  this.props.mainSidebar(false)
-                  this.props.markSeenAllMessages(chat.uid)
-                }}
-                className={`${
-                  this.props.activeChatID === chat.uid ? 'active' : ''
-                }`}
-              >
-                <div className="pr-1">
-                  <span className="avatar avatar-md m-0">
-                    <img
-                      src={chat.photoURL}
-                      alt={chat.displayName}
-                      height="38"
-                      width="38"
-                    />
+      this.state.chatsArr.map((chat) => {
+        return (
+          <li
+            key={chat._id}
+            onClick={() => {
+              // this.props.handleActiveChat(chat._id)
+              // this.props.mainSidebar(false)
+              // this.props.markSeenAllMessages(chat._id)
+
+              this.props.handleActiveChat(chat._id, ChatLog._id)
+              this.props.mainSidebar(false)
+              this.props.markSeenAllMessages(chat._id, ChatLog._id)
+            }}
+            className={`${this.props.activeChatID === chat._id ? 'active' : ''
+              }`}
+          >
+            <div className="pr-1">
+              <span className="avatar avatar-md m-0">
+                <img
+                  src={chat.userid?.userimg[0]}
+                  alt={chat.displayname}
+                  height="38"
+                  width="38"
+                />
+              </span>
+            </div>
+            <div className="user-chat-info">
+              <div className="contact-info">
+                <h5 className="text-bold-600 mb-0">{chat.userid?.fullname}</h5>
+                <p className="truncate">
+                  {chat.msg}
+                </p>
+              </div>
+              {/* <div className="contact-meta d-flex- flex-column">
+                  <span className="float-right mb-25">
+                    {lastMsgMonth + ' ' + lastMsgDay}
                   </span>
-                </div>
-                <div className="user-chat-info">
-                  <div className="contact-info">
-                    <h5 className="text-bold-600 mb-0">{chat.displayName}</h5>
-                    <p className="truncate">
-                      {lastMsg ? lastMsg.textContent : chat.about}
-                    </p>
-                  </div>
-                  <div className="contact-meta d-flex- flex-column">
-                    <span className="float-right mb-25">
-                      {lastMsgMonth + ' ' + lastMsgDay}
-                    </span>
-                    {pendingMsg > 0 ? (
-                      <div className="unseen-msg">
-                        <Badge
-                          className="badge-md float-right"
-                          color="primary"
-                          pill
-                        >
-                          {pendingMsg}
-                        </Badge>
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-              </li>
-            )
-          })
-        : null
+                  {pendingMsg > 0 ? (
+                    <div className="unseen-msg">
+                      <Badge
+                        className="badge-md float-right"
+                        color="primary"
+                        pill
+                      >
+                        {pendingMsg}
+                      </Badge>
+                    </div>
+                  ) : null}
+                </div> */}
+            </div>
+          </li>
+        )
+      })
+
     return (
       <Card className="sidebar-content h-100">
         <span
@@ -192,10 +175,10 @@ class ChatSidebar extends React.Component {
                     status === 'dnd'
                       ? 'avatar-status-busy'
                       : status === 'away'
-                      ? 'avatar-status-away'
-                      : status === 'offline'
-                      ? 'avatar-status-offline'
-                      : 'avatar-status-online'
+                        ? 'avatar-status-away'
+                        : status === 'offline'
+                          ? 'avatar-status-offline'
+                          : 'avatar-status-online'
                   }
                 />
               </div>
@@ -222,10 +205,7 @@ class ChatSidebar extends React.Component {
         >
           <h3 className="primary p-1 mb-0">Chats</h3>
           <ul className="chat-users-list-wrapper media-list">{renderChats}</ul>
-          <h3 className="primary p-1 mb-0">Contacts</h3>
-          <ul className="chat-users-list-wrapper media-list">
-            {renderContacts}
-          </ul>
+
         </PerfectScrollbar>
       </Card>
     )

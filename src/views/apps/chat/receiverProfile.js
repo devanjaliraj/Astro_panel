@@ -19,9 +19,8 @@ class ReceiverProfile extends React.Component {
     const { activeUser } = this.state
     return (
       <div
-        className={`user-profile-sidebar ${
-          this.props.receiverProfile ? "show" : null
-        }`}
+        className={`user-profile-sidebar ${this.props.receiverProfile ? "show" : null
+          }`}
       >
         <header className="user-profile-header">
           <span
@@ -39,15 +38,14 @@ class ReceiverProfile extends React.Component {
                 width="66"
               />
               <span
-                className={`${
-                  activeUser !== null && activeUser.status === "do not disturb"
-                    ? "avatar-status-busy"
-                    : activeUser !== null && activeUser.status === "away"
+                className={`${activeUser !== null && activeUser.status === "do not disturb"
+                  ? "avatar-status-busy"
+                  : activeUser !== null && activeUser.status === "away"
                     ? "avatar-status-away"
                     : activeUser !== null && activeUser.status === "offline"
-                    ? "avatar-status-offline"
-                    : "avatar-status-online"
-                } avatar-status-lg`}
+                      ? "avatar-status-offline"
+                      : "avatar-status-online"
+                  } avatar-status-lg`}
               />
             </div>
             <h4 className="chat-user-name">
