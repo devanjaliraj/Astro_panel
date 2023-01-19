@@ -11,10 +11,7 @@ import {
 } from '../../../redux/actions/chat/index'
 import userImg from '../../../assets/img/portrait/small/avatar-s-11.jpg'
 import axiosConfig from "../../../axiosConfig"
-
-
-
-
+import ChatLog from "./ChatLog";
 class ChatSidebar extends React.Component {
   // static getDerivedStateFromProps(props, state) {
   //   if (
@@ -33,18 +30,33 @@ class ChatSidebar extends React.Component {
   // }
 
   state = {
+    roomChatData: [],
     chatsContacts: [],
     chatsArr: [],
-
     status: null,
     value: '',
+    astro: [],
   }
 
   getChatContents = () => {
     this.props.getChats()
     this.props.getContactChats()
   }
+  getChatRoomId = async (astro) => {
+    this.setState({ userId: astro?.astroid?._id, roomId: astro?.roomid });
+    await axiosConfig.get(`/user/allchatwithAstro/${astro?.roomid}`)
+      .then((response) => {
+        console.log("sdhfkhk", response?.data?.data);
+        if (response.data.status === true) {
+          this.setState({ roomChatData: response?.data.data });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   componentDidMount() {
+
     // let { id } = this.props.match.params;
 
     // let astroid = JSON.parse(l;ocalStorage.getItem("astroId"));
@@ -56,10 +68,30 @@ class ChatSidebar extends React.Component {
       .then((response) => {
         console.log("chatsContacts", response.data.data);
         this.setState({ chatsArr: response.data.data });
-
         if (response.data.status === true) {
           this.getChatContents()
         }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+    axiosConfig.get(`/admin/getoneAstro/${astroId}`)
+      // .get(`/user/astrogetRoomid/${id}`)
+      .then((response) => {
+        console.log("astro", response.data.data);
+        this.setState({
+          img: response.data.data.img[0],
+          fullname: response.data.data.fullname,
+          astro: response.data.data,
+          // msg: response.data.data.msg,
+          // type: response.data.data.type,
+
+        });
+
+        // if (response.data.status === true) {
+        //   this.getChatContents()
+        // }
       })
       .catch((error) => {
         console.log(error);
@@ -128,6 +160,7 @@ class ChatSidebar extends React.Component {
             </div>
             <div className="user-chat-info">
               <div className="contact-info">
+                {/* <ChatLog getChatRoomId={(id) => this.getChatRoomId(id)} /> */}
                 <h5 className="text-bold-600 mb-0">{chat.userid?.fullname}</h5>
                 <p className="truncate">
                   {chat.msg}
@@ -167,10 +200,10 @@ class ChatSidebar extends React.Component {
             <div className="sidebar-profile-toggle position-relative d-inline-flex">
               <div
                 className="avatar"
-                onClick={() => this.props.handleUserSidebar('open')}
+              // onClick={() => this.props.handleUserSidebar('open')}
               >
-                <img src={userImg} alt="User Profile" height="40" width="40" />
-                <span
+                <img src={this.state?.img} alt="User Profile" height="40" width="40" />
+                {/* <span
                   className={
                     status === 'dnd'
                       ? 'avatar-status-busy'
@@ -180,10 +213,13 @@ class ChatSidebar extends React.Component {
                           ? 'avatar-status-offline'
                           : 'avatar-status-online'
                   }
-                />
+                /> */}
+
               </div>
+
             </div>
-            <FormGroup className="position-relative has-icon-left mx-1 my-0 w-100">
+            <span> <h5 className="text-bold-600 mb-0">{this.state?.fullname}</h5></span>
+            {/* <FormGroup className="position-relative has-icon-left mx-1 my-0 w-100">
               <Input
                 className="round"
                 type="text"
@@ -194,7 +230,7 @@ class ChatSidebar extends React.Component {
               <div className="form-control-position">
                 <Search size={15} />
               </div>
-            </FormGroup>
+            </FormGroup> */}
           </div>
         </div>
         <PerfectScrollbar

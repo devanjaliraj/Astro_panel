@@ -23,6 +23,7 @@ class ChatLog extends React.Component {
   //   return null
   // }
   state = {
+    astro: [],
     chatsContacts: [],
     msg: "",
     type: "",
@@ -38,7 +39,9 @@ class ChatLog extends React.Component {
       })
     }
   }
+
   componentDidMount() {
+    //
     // let { id } = this.props.match.params;
 
     // let astroid = JSON.parse(l;ocalStorage.getItem("astroId"));
@@ -63,6 +66,8 @@ class ChatLog extends React.Component {
       .catch((error) => {
         console.log(error);
       })
+
+
   }
   // componentDidMount() {
   //   this.scrollToBottom()
@@ -85,7 +90,45 @@ class ChatLog extends React.Component {
     const chatContainer = ReactDOM.findDOMNode(this.chatArea)
     chatContainer.scrollTop = chatContainer.scrollHeight
   }
+  submitHandler = async (e, astroid, userId) => {
+    e.preventDefault();
+    // let { id } = this.props.match.params;
+    let astroId = JSON.parse(localStorage.getItem("astroId"));
+    let obj = {
+      userid: this.state.userId,
+      msg: this.state.msg,
+    };
 
+    await axiosConfig
+      .post(`/user/add_chatroom/${astroId}`, obj)
+      .then((response) => {
+        console.log("hdfkjh", response.data.status)
+        if (response.data.status === true) {
+          this.setState({ msg: "" });
+          axiosConfig.get(`/user/allchatwithAstro/${this.state.roomId}`)
+            .then((response1) => {
+              console.log(response1?.data?.data);
+              if (response1.data.status === true) {
+                this.setState({ roomChatData: response1?.data.data });
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      })
+
+      .catch((error) => {
+        // swal("Error!", "You clicked the button!", "error");
+        console.log(error);
+      });
+  };
+
+  handleChange = (e) => {
+    this.setState({
+      msg: e.target.value,
+    });
+  };
   render() {
     console.log(this.state.activeUser)
 
@@ -127,7 +170,7 @@ class ChatLog extends React.Component {
                   <div className="chat-avatar">
                     <div className="avatar m-0">
                       <img
-                        src={userImg}
+                        src={chat.astroid?.userimg[0]}
                         alt="chat avatar"
                         height="40"
                         width="40"
@@ -140,7 +183,7 @@ class ChatLog extends React.Component {
                   <div className="chat-avatar">
                     <div className="avatar m-0">
                       <img
-                        src={activeUser.photoURL}
+                        src={chat.userid?.userimg[0]}
                         alt="chat avatar"
                         height="40"
                         width="40"
@@ -273,6 +316,7 @@ class ChatLog extends React.Component {
               <div className="chats">{renderChats}</div>
             </PerfectScrollbar>
             <div className="chat-app-form">
+
               <form
                 className="chat-app-input d-flex align-items-center"
                 onSubmit={e => {
@@ -285,10 +329,11 @@ class ChatLog extends React.Component {
                   )
                 }}>
                 <Input
+                  // roomChatData={this.state.roomChatData.length > 0 ? this.state.roomChatData : []}
                   type="text"
                   className="message mr-1 ml-50"
                   placeholder="Type your message"
-                  value={this.state.data?.msg}
+                  value={this.state.msg}
                   onChange={e => {
                     e.preventDefault()
                     this.setState({
@@ -296,7 +341,17 @@ class ChatLog extends React.Component {
                     })
                   }}
                 />
-                <Button color="primary">
+                <Button color="primary"
+                // onClick={(e) =>
+                //   this.submitHandler(
+                //     e,
+                //     this.state.astroId,
+                //     this.state.userId,
+
+                //   )
+                // }
+
+                >
                   <Send className="d-lg-none" size={15} />
                   <span className="d-lg-block d-none">Send</span>
                 </Button>
