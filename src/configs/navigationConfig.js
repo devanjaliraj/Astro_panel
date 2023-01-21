@@ -42,6 +42,16 @@ const navigationConfig = [
     navLink: '/app/conversation/conversationList',
   },
   {
+    id: 'chatastro',
+    title: 'Astro-Chat',
+    type: 'item',
+    icon: <Icon.MessageCircle size={20} />,
+    permissions: ['admin', 'editor'],
+    navLink: '/app/astrochat/chatastro',
+  },
+
+
+  {
     id: "chat",
     title: "Chat",
     type: "item",
@@ -49,6 +59,8 @@ const navigationConfig = [
     navLink: "/chat",
     permissions: ["admin", "editor"],
   },
+
+
 
   {
     id: "products",

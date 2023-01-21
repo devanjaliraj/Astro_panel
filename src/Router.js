@@ -94,7 +94,13 @@ const TodayRechargeList = lazy(() =>
 const TodayCallHistory = lazy(() =>
   import("./views/apps/dashboardlist/TodayCallHistory")
 );
+// astrocaht
+const ChatAstro = lazy(() => import("./views/apps/astrochat/ChatAstro"));
+const ChatAppList = lazy(() => import("./views/apps/astrochat/ChatAppList"));
 
+const ChatAppMassage = lazy(() =>
+  import("./views/apps/astrochat/ChatAppMassage")
+);
 // call management
 const CallHistroy = lazy(() =>
   import("./views/apps/callmanagement/CallHistory")
@@ -550,6 +556,16 @@ class AppRouter extends React.Component {
             <AppRoute
               path="/app/callmanagement/callgreject"
               component={CallReject}
+            />
+            {/* {/ chatastro /} */}
+            <AppRoute path="/app/astrochat/chatastro" component={ChatAstro} />
+            <AppRoute
+              path="/app/astrochat/chatappmessage"
+              component={ChatAppMassage}
+            />
+            <AppRoute
+              path="/app/astrochat/chatapplist"
+              component={ChatAppList}
             />
             {/* Package Management */}
             <AppRoute
