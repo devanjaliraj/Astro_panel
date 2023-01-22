@@ -39,7 +39,7 @@ class ChatAppList extends React.Component {
           ? astroChatList.map((astro, index) => {
             return (
               <li>
-                <div className="imglf">
+                <div className="imglf" onClick={() => this.props.getChatRoomId(astro)}>
                   <img src={astro.userid?.userimg} className="app-img" alt="" />
                 </div>
                 <div className="lst-con">

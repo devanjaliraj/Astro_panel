@@ -108,7 +108,7 @@ class ChatAstro extends React.Component {
     // let astroId = localStorage.getItem('astroId')
     console.log("sdfjhsdfjsghjfk", astro);
     this.setState({ userId: astro?.userid?._id, roomId: astro?.roomid });
-    await axios.get(`http://13.233.228.168:8000/user/allchatwithAstro/${astro?.roomid}`)
+    await axios.get(`http://13.233.228.168:8000/user/allchatwithAstro/${astro?.astroid?._id}`)
       .then((response) => {
         console.log(response?.data?.data);
         if (response.data.status === true) {
@@ -124,8 +124,8 @@ class ChatAstro extends React.Component {
     // let { id } = this.props.match.params;
     let astroId = localStorage.getItem("astroId");
     let obj = {
-      userid: this.state.userId,
-      reciver: this.state.reciver,
+      //userid: this.state.userId,
+      reciver: this.state.userId,
       msg: this.state.msg,
     };
 
@@ -135,7 +135,7 @@ class ChatAstro extends React.Component {
         console.log("hdfkjh", response.data.status)
         if (response.data.status === true) {
           this.setState({ msg: "" });
-          axiosConfig.get(`/user/allchatwithAstro/${this.state.roomId}`)
+          axiosConfig.get(`/user/allchatwithAstro/${astroId}`)
             .then((response1) => {
               console.log(response1?.data?.data);
               if (response1.data.status === true) {
