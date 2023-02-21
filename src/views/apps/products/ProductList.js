@@ -165,7 +165,7 @@ class ProductList extends React.Component {
 
   async runthisfunction(id) {
     console.log(id);
-    await axios.get(`/${id}`).then(
+    await axiosConfig.get(`/admin/del_astro_product/${id}`).then(
       (response) => {
         console.log(response);
       },
@@ -238,14 +238,14 @@ class ProductList extends React.Component {
                             {this.gridApi
                               ? this.state.currenPageSize
                               : "" * this.state.getPageSize -
-                                (this.state.getPageSize - 1)}{" "}
+                              (this.state.getPageSize - 1)}{" "}
                             -{" "}
                             {this.state.rowData.length -
                               this.state.currenPageSize *
-                                this.state.getPageSize >
-                            0
+                              this.state.getPageSize >
+                              0
                               ? this.state.currenPageSize *
-                                this.state.getPageSize
+                              this.state.getPageSize
                               : this.state.rowData.length}{" "}
                             of {this.state.rowData.length}
                             <ChevronDown className="ml-50" size={15} />

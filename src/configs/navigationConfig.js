@@ -32,24 +32,32 @@ const navigationConfig = [
     navLink: "/app/historycall/callhistory",
   },
 
-
   {
-    id: 'conversationList',
-    title: 'Conversation List',
-    type: 'item',
+    id: "conversationList",
+    title: "Conversation List",
+    type: "item",
     icon: <Icon.MessageCircle size={20} />,
-    permissions: ['admin', 'editor'],
-    navLink: '/app/conversation/conversationList',
-  },
-  {
-    id: 'chatastro',
-    title: 'Astro-Chat',
-    type: 'item',
-    icon: <Icon.MessageCircle size={20} />,
-    permissions: ['admin', 'editor'],
-    navLink: '/app/astrochat/chatastro',
+    permissions: ["admin", "editor"],
+    navLink: "/app/conversation/conversationList",
   },
 
+  {
+    id: "conversationintakeList",
+    title: "Conversation Intake List",
+    type: "item",
+    icon: <Icon.MessageCircle size={20} />,
+    permissions: ["admin", "editor"],
+    navLink: "/app/conversation/intakelist",
+  },
+
+  {
+    id: "chatastro",
+    title: "Astro-Chat",
+    type: "item",
+    icon: <Icon.MessageCircle size={20} />,
+    permissions: ["admin", "editor"],
+    navLink: "/app/astrochat/chatastro",
+  },
 
   {
     id: "chat",
@@ -59,8 +67,6 @@ const navigationConfig = [
     navLink: "/chat",
     permissions: ["admin", "editor"],
   },
-
-
 
   {
     id: "products",
@@ -105,6 +111,15 @@ const navigationConfig = [
     navLink: "/app/orderhistory/orderhisList",
   },
 
+  {
+    id: "astroratings",
+    title: " Ratings and Reviews",
+    type: "item",
+    icon: <Icon.Star size={20} />,
+    permissions: ["admin", "editor"],
+    navLink: "/app/reviewrating/ratingreview",
+  },
+
   // {
   //   id: "prediction",
   //   title: "Prediction",
@@ -145,14 +160,6 @@ const navigationConfig = [
         permissions: ["admin", "editor"],
         navLink: "/app/report/callreport",
       },
-      {
-        id: "payout",
-        title: "Payout",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/app/report/payoutreport",
-      },
     ],
   },
 
@@ -172,6 +179,23 @@ const navigationConfig = [
     icon: <Icon.DollarSign size={20} />,
     permissions: ["admin", "editor"],
     navLink: "/app/transaction/transactionHistory",
+  },
+
+  {
+    id: "payoutrequest",
+    title: "Payout Request",
+    type: "item",
+    icon: <Icon.DollarSign size={20} />,
+    permissions: ["admin", "editor"],
+    navLink: "/app/report/payoutreport",
+  },
+  {
+    id: "adcommission",
+    title: "Admin Commssion ",
+    type: "item",
+    icon: <Icon.DollarSign size={20} />,
+    permissions: ["admin", "editor"],
+    navLink: "/app/report/asbycommissionlist",
   },
 
   {

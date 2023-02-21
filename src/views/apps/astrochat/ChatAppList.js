@@ -1,67 +1,58 @@
 import React from "react";
+// import { Link } from "react-router-dom";
+// import { Container } from "reactstrap";
 import "../../../assets/scss/pages/astrochat.scss";
 // import Buyimg from "../../../assets/img/boy-img.png";
-// import axiosConfig from "../../../axiosConfig";
-import axios from "axios";
+// import Countdown from "react-countdown";
 
 class ChatAppList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // data: {},
-      astroChatList: [],
+      userChatList: this.props.userChatList,
+      roomid: ''
     };
   }
-  componentDidMount() {
-    // console.log(this.state.category);
-    let astroId = localStorage.getItem("astroId");
-    console.log(astroId)
-    axios
-      .get(`http://13.233.228.168:8000/user/astrogetRoomid/${astroId}`)
-      .then((response) => {
-        console.log('&&&&&', response.data.data);
-        this.setState({ astroChatList: response.data.data });
-
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
 
   render() {
-
-    const { astroChatList } = this.state;
-
+    const { userChatList } = this.props;
+    console.log('console.log', this.props.userChatList)
     return (
       <ul>
-        {astroChatList.length
-          ? astroChatList.map((astro, index) => {
+        {userChatList.length
+          ? userChatList.map((user, i) => {
+
             return (
               <li>
-                <div className="imglf" onClick={() => this.props.getChatRoomId(astro)}>
-                  <img src={astro.userid?.userimg} className="app-img" alt="" />
+                <div className="imglf" onClick={() => this.props.getChatRoomId(user, i)}>
+                  <img src={user.userid?.userimg} className="app-img" alt="" />
                 </div>
                 <div className="lst-con">
-                  <h5>{astro.userid?.fullname} </h5>
-                  <p>{astro.msg}</p>
+                  <h5>{user.userid?.fullname}</h5>
+                  <p>{user.msg}</p>
                 </div>
               </li>
             );
           })
           : null}
-        {/* // <li>
-        //   <div className="imglf">
-        //     <img src={Buyimg} className="app-img" alt="" />
-        //   </div>
-        //   <div className="lst-con">
-        //     <h5> namehghghghg</h5>
-        //     <p>lorem</p>
-        //   </div>
-        // </li> */}
+        {/* <li>
+          <div className="imglf">
+            <img src={Buyimg} className="app-img" />
+          </div>
+          <div className="lst-con">
+            <h5> namehghghghg</h5>
+            <p>lorem</p>
+          </div>
+        </li> */}
       </ul>
     );
   }
 }
+
+//   ReactDOM.render(
+//     <ChatApp />,
+//     document.getElementById('root')
+//   );
 
 export default ChatAppList;

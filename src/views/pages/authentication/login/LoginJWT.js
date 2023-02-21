@@ -4,7 +4,7 @@ import { CardBody, FormGroup, Form, Input, Button, Label } from "reactstrap";
 import { Phone } from "react-feather";
 import { loginWithJWT } from "../../../../redux/actions/auth/loginActions";
 import { connect } from "react-redux";
-import axios from "axios";
+// import axios from "axios";
 import { Route } from "react-router-dom";
 import swal from "sweetalert";
 // import { history } from '../../../../history'
@@ -88,7 +88,7 @@ class LoginJWT extends React.Component {
                   placeholder="Enter OTP"
                   value={this.state.otp}
                   onChange={this.handlechange}
-                  // required
+                // required
                 />
 
                 <Label>Phone</Label>

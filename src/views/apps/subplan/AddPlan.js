@@ -8,7 +8,7 @@ import {
   Input,
   Label,
   Button,
-  
+
 } from "reactstrap";
 import { history } from "../../../history";
 // import axiosConfig from "../../../../axiosConfig";
@@ -21,12 +21,12 @@ export class AddPlans extends Component {
     super(props);
 
     this.state = {
-        _id: "",
-        video_link: "",
-        associated_plan: "",
-     
+      _id: "",
+      video_link: "",
+      associated_plan: "",
+
     };
-  
+
   }
 
 
@@ -40,13 +40,7 @@ export class AddPlans extends Component {
     e.preventDefault();
 
     axios
-      .post("http://3.108.185.7/nodejs/api/admin/addplan", this.state, 
-      // {
-      //   headers: {
-      //     "auth-adtoken": localStorage.getItem("auth-adtoken"),
-      //   },
-      // }
-      )
+      .post("http://3.108.185.7/nodejs/api/admin/addplan", this.state)
       .then((response) => {
         console.log(response);
         // swal("Success!", "Submitted SuccessFull!", "success");
@@ -67,24 +61,24 @@ export class AddPlans extends Component {
               </h1>
             </Col>
             <Col>
-            <Route
-              render={({ history }) => (
-              <Button
-                className=" btn btn-danger float-right"
-                onClick={() =>
-                  history.push("/app/subplan/SubPlanVideos")
-                }
-              >
-                Back
-              </Button>
-              )}
-          />
+              <Route
+                render={({ history }) => (
+                  <Button
+                    className=" btn btn-danger float-right"
+                    onClick={() =>
+                      history.push("/app/subplan/SubPlanVideos")
+                    }
+                  >
+                    Back
+                  </Button>
+                )}
+              />
             </Col>
           </Row>
           <CardBody>
             <Form className="m-1" onSubmit={this.submitHandler}>
               <Row className="mb-2">
-              {/* <Col lg="6" md="6" className="mb-2">
+                {/* <Col lg="6" md="6" className="mb-2">
                   <Label>ID </Label>
                   <Input
                     type="text"
@@ -102,7 +96,7 @@ export class AddPlans extends Component {
                     onChange={this.changeHandler}
                   />
                 </Col>
-              
+
                 <Col lg="6" md="6" className="mb-2">
                   <Label>Associated Plan </Label>
                   <Input

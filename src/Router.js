@@ -25,7 +25,12 @@ const TermConditionList = lazy(() =>
 
 // userchat
 
-const ConversationList = lazy(() => import("./views/apps/conversation/ConversationList"));
+const ConversationList = lazy(() =>
+  import("./views/apps/conversation/ConversationList")
+);
+
+const InTakeList = lazy(() => import("./views/apps/conversation/InTakeList"));
+
 const chatlist = lazy(() => import("./views/apps/userchat/ChatList"));
 
 const chat = lazy(() => import("./views/apps/chat/Chat"));
@@ -65,6 +70,8 @@ const WalletManagement = lazy(() =>
   import("./views/apps/wallet/WalletManagement")
 );
 
+// payrequest
+
 //Transaction history//
 const TransactionHistory = lazy(() =>
   import("./views/apps/transaction/TransactionHistory")
@@ -97,10 +104,13 @@ const TodayCallHistory = lazy(() =>
 // astrocaht
 const ChatAstro = lazy(() => import("./views/apps/astrochat/ChatAstro"));
 const ChatAppList = lazy(() => import("./views/apps/astrochat/ChatAppList"));
-
 const ChatAppMassage = lazy(() =>
   import("./views/apps/astrochat/ChatAppMassage")
 );
+const RatingReview = lazy(() =>
+  import("./views/apps/reviewrating/RatingReview")
+);
+
 // call management
 const CallHistroy = lazy(() =>
   import("./views/apps/callmanagement/CallHistory")
@@ -177,6 +187,15 @@ const EditPackage = lazy(() => import("./views/apps/poojapackage/EditPackage"));
 const CallReport = lazy(() => import("./views/apps/report/CallReport"));
 const EarningReport = lazy(() => import("./views/apps/report/EarningReport"));
 const PayoutReport = lazy(() => import("./views/apps/report/PayoutReport"));
+const PayoutAddRequest = lazy(() =>
+  import("./views/apps/report/PayoutAddRequest")
+);
+const PayoutAddReqEdit = lazy(() =>
+  import("./views/apps/report/PayoutAddReqEdit")
+);
+const AdbyCommissionList = lazy(() =>
+  import("./views/apps/report/AdbyCommissionList")
+);
 
 // close
 
@@ -382,8 +401,8 @@ const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
               fullLayout === true
                 ? context.fullLayout
                 : context.state.activeLayout === "horizontal"
-                  ? context.horizontalLayout
-                  : context.VerticalLayout;
+                ? context.horizontalLayout
+                : context.VerticalLayout;
             return (
               <LayoutTag {...props} permission={props.user}>
                 <Suspense fallback={<Spinner />}>
@@ -431,9 +450,14 @@ class AppRouter extends React.Component {
             <AppRoute path="/app/user/userList" component={UserList} />
             <AppRoute path="/app/user/addUser" component={AddUser} />
             <AppRoute path="/app/userride/editUser" component={EditUser} />
-
-            <AppRoute path="/app/conversation/conversationList" component={ConversationList} />
-
+            <AppRoute
+              path="/app/conversation/conversationList"
+              component={ConversationList}
+            />
+            <AppRoute
+              path="/app/conversation/intakelist"
+              component={InTakeList}
+            />
             <AppRoute path="/app/user/viewUser" component={ViewUser} />
             <AppRoute path="/chat" component={chat} />
             <AppRoute path="/userchat/chatlist" component={chatlist} />
@@ -548,6 +572,18 @@ class AppRouter extends React.Component {
               path="/app/report/payoutreport"
               component={PayoutReport}
             />
+            <AppRoute
+              path="/app/report/payoutaddrequest"
+              component={PayoutAddRequest}
+            />
+            <AppRoute
+              path="/app/report/asbycommissionlist"
+              component={AdbyCommissionList}
+            />
+            <AppRoute
+              path="/app/report/payoutaddreqedit"
+              component={PayoutAddReqEdit}
+            />
             {/* Call Management */}
             <AppRoute
               path="/app/callmanagement/callhistory"
@@ -556,6 +592,10 @@ class AppRouter extends React.Component {
             <AppRoute
               path="/app/callmanagement/callgreject"
               component={CallReject}
+            />
+            <AppRoute
+              path="/app/reviewrating/ratingreview"
+              component={RatingReview}
             />
             {/* {/ chatastro /} */}
             <AppRoute path="/app/astrochat/chatastro" component={ChatAstro} />

@@ -47,7 +47,7 @@ class Profile extends React.Component {
     let astroId = localStorage.getItem("astroId");
     console.log(astroId);
     axios
-      .get(`http://13.233.228.168:8000/admin/getoneAstro/${astroId}`)
+      .get(`http://13.234.48.35:8000/admin/getoneAstro/${astroId}`)
       .then((response) => {
         console.log(response.data.data);
         console.log(response);
@@ -93,7 +93,7 @@ class Profile extends React.Component {
     let astroId = localStorage.getItem("astroId");
     axios
       .post(
-        `http://13.233.228.168:8000/user/editAstroDetails/${astroId}`,
+        `http://13.234.48.35:8000/user/editAstroDetails/${astroId}`,
         data
       )
       .then((response) => {
