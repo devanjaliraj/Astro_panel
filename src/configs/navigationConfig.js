@@ -69,6 +69,15 @@ const navigationConfig = [
   },
 
   {
+    id: "Uploads",
+    title: "Gallary",
+    type: "item",
+    icon: <Icon.Upload size={16} />,
+    navLink: "/uploads",
+    permissions: ["admin", "editor"],
+  },
+
+  {
     id: "products",
     title: "Product",
     type: "collapse",
@@ -92,6 +101,34 @@ const navigationConfig = [
     icon: <Icon.HelpCircle size={20} />,
     permissions: ["admin", "editor"],
     navLink: "/app/askquestion/useraskqueslist",
+  },
+  {
+    type: "groupHeader",
+    groupTitle: "Videocall",
+  },
+  {
+    id: "Videocall",
+    title: "Videocall",
+    type: "collapse",
+    icon: <Icon.Video size={20} />,
+    children: [
+      {
+        id: "video",
+        title: "Video-Channel",
+        type: "item",
+        icon: <Icon.List size={16} />,
+        navLink: "/videocallmain",
+        permissions: ["admin", "editor"],
+      },
+      {
+        id: "Yourvideo",
+        title: "Videocall ",
+        type: "item",
+        icon: <Icon.Video size={16} />,
+        navLink: "/astrovideocall",
+        permissions: ["admin", "editor"],
+      },
+    ],
   },
   {
     id: "waitqueue",
