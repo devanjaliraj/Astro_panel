@@ -20,7 +20,7 @@ const VideoAstro = () => {
     channel: "anujesh",
     // Pass your temp token here.
     token:
-      "007eJxTYDgZtfLsJJlPNUfv+/TxhHy7/ejtDNFLWsfunpdhO7HmiIeMAoN5imGagXmyuVmaZYqJWVKqhVlSsolZormloYWFiYGRccy90JSGQEYGruA2VkYGCATx2RkS80qzUoszGBgAdf4iOg==",
+      "007eJxTYDgh+fefxobNlcqHuZiV5tUksPQsnbky8DLD45MxN08G9yxRYDBPMUwzME82N0uzTDExS0q1MEtKNjFLNLc0tLAwMTAyXn4pMqUhkJEh7PIBZkYGCATx2RkS80qzUoszGBgA59ghrA==",
     // Set the user ID.
     uid: 0,
     // Set the user role

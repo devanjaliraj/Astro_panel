@@ -26,6 +26,8 @@ import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
 class UploadMain extends React.Component {
   state = {
     rowData: [],
+    Images: [],
+    Videos: [],
     paginationPageSize: 20,
     currenPageSize: "",
     getPageSize: "",
@@ -57,7 +59,7 @@ class UploadMain extends React.Component {
           return (
             <div>
               {/* <span>{params.data.firstname}</span> */}
-              <span>{params?.data?.image?.length > 0 ? "Image" : "Video"}</span>
+              <span>params?.data?.image?.length? "Image" : "Video"</span>
             </div>
           );
         },
@@ -74,15 +76,15 @@ class UploadMain extends React.Component {
 
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <video class="afterglow" id="myvideo" width="40" height="40">
-                <source type="video/mp4" src={params?.data?.video[0]} />
-              </video>
-              <img
+              {/* <video class="afterglow" id="myvideo" width="40" height="40"> */}
+              {/* <source type="video/mp4" src={params?.data?.video[0]} /> */}
+              {/* </video> */}
+              {/* <img
                 style={{ borderRadius: "50%" }}
                 width={38}
                 src={params?.data?.image[0]}
                 alt="image"
-              />
+              /> */}
             </div>
           );
         },
@@ -95,7 +97,7 @@ class UploadMain extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.userid?.mobile}</span>
+              <span>params.data.userid?.mobile</span>
             </div>
           );
         },
@@ -108,7 +110,7 @@ class UploadMain extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.gender}</span>
+              <span>params.data.gender</span>
             </div>
           );
         },
@@ -121,7 +123,7 @@ class UploadMain extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.dob}</span>
+              <span>params.data.dob</span>
             </div>
           );
         },
@@ -134,7 +136,7 @@ class UploadMain extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.date_of_time}</span>
+              <span>params.data.date_of_time</span>
             </div>
           );
         },
@@ -147,7 +149,7 @@ class UploadMain extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.birthPlace}</span>
+              <span>params.data.birthPlace</span>
             </div>
           );
         },
@@ -160,7 +162,7 @@ class UploadMain extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.birthPlace}</span>
+              <span>params.data.birthPlace</span>
             </div>
           );
         },
@@ -174,7 +176,7 @@ class UploadMain extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.marital_status}</span>
+              <span>params.data.marital_status</span>
             </div>
           );
         },
@@ -187,7 +189,7 @@ class UploadMain extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.occupation}</span>
+              <span>params.data.occupation</span>
             </div>
           );
         },
@@ -200,7 +202,7 @@ class UploadMain extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.topic_of_cnsrn}</span>
+              <span>params.data.topic_of_cnsrn</span>
             </div>
           );
         },
@@ -213,7 +215,7 @@ class UploadMain extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.entertopic_of_cnsrn}</span>
+              <span>params.data.entertopic_of_cnsrn</span>
             </div>
           );
         },
@@ -306,14 +308,17 @@ class UploadMain extends React.Component {
     ],
   };
   async componentDidMount() {
+    let astroId = localStorage.getItem("astroId");
+
     axiosConfig
-      .get(`/admin/get_astroGallery/6352904e3755959407f948a6`)
+      .get(`/admin/get_astroGallery/${astroId}`)
       // .get(`/admin/get_astroGallery/${Param.id}`)
       .then((res) => {
         this.setState({ gallary: res?.data?.data });
-        console.log("@@@@@", res.data.data);
-        let rowData = res.data.data;
-        this.setState({ rowData });
+        console.log("images", res.data.data.images);
+        console.log("Videos", res.data.data.videos);
+        this.setState({ Images: res.data?.data?.images });
+        this.setState({ Videos: res.data?.data?.videos });
       })
       .catch((err) => {
         console.log(err);
@@ -327,14 +332,13 @@ class UploadMain extends React.Component {
     //     console.log(rowData);
     //     this.setState({ rowData });
     //   });
-    let astroId = localStorage.getItem("astroId");
-    await axiosConfig
-      .get(`admin/intekListByastro/63a5a63c2ca20d31009ebf02`)
-      .then((response) => {
-        let rowData = response.data.data;
-        console.log(rowData);
-        // this.setState({ rowData });
-      });
+    // await axiosConfig
+    //   .get(`admin/intekListByastro/${astroId}`)
+    //   .then((response) => {
+    //     let rowData = response.data.data;
+    //     console.log(rowData);
+    //     // this.setState({ rowData });
+    //   });
   }
 
   async runthisfunction(id) {
@@ -372,138 +376,135 @@ class UploadMain extends React.Component {
   render() {
     const { rowData, columnDefs, defaultColDef } = this.state;
     return (
-      console.log(rowData),
-      (
-        <div>
-          <Breadcrumbs
-            breadCrumbTitle="Upload Gallary"
-            breadCrumbParent="Home"
-            breadCrumbActive="Gallary"
-          />
+      <div>
+        <Breadcrumbs
+          breadCrumbTitle="Upload Gallary"
+          breadCrumbParent="Home"
+          breadCrumbActive="Gallary"
+        />
 
-          <Row className="app-user-list">
-            <Col sm="12"></Col>
-            <Col sm="12">
-              <Card>
-                <Row className="m-2">
-                  <Col>
-                    <h1 sm="6" className="float-left">
-                      Your Uploads
-                    </h1>
-                  </Col>
-                  <Col>
-                    <Route
-                      render={({ history }) => (
-                        <Button
-                          className=" btn btn-success float-right"
-                          onClick={
-                            () => history.push("/uploadgallary")
-                            // history.push("/app/astrology/addAstrologer")
-                          }
-                        >
-                          Add Your gallary
-                        </Button>
-                      )}
-                    />
-                  </Col>
-                </Row>
-                <CardBody>
-                  {this.state.rowData === null ? null : (
-                    <div className="ag-theme-material w-100 my-2 ag-grid-table">
-                      <div className="d-flex flex-wrap justify-content-between align-items-center">
-                        <div className="mb-1">
-                          <UncontrolledDropdown className="p-1 ag-dropdown">
-                            <DropdownToggle tag="div">
-                              {this.gridApi
-                                ? this.state.currenPageSize
-                                : "" * this.state.getPageSize -
-                                  (this.state.getPageSize - 1)}{" "}
-                              -{" "}
-                              {this.state.rowData.length -
-                                this.state.currenPageSize *
-                                  this.state.getPageSize >
-                              0
-                                ? this.state.currenPageSize *
-                                  this.state.getPageSize
-                                : this.state.rowData.length}{" "}
-                              of {this.state.rowData.length}
-                              <ChevronDown className="ml-50" size={15} />
-                            </DropdownToggle>
-                            <DropdownMenu right>
-                              <DropdownItem
-                                tag="div"
-                                onClick={() => this.filterSize(20)}
-                              >
-                                20
-                              </DropdownItem>
-                              <DropdownItem
-                                tag="div"
-                                onClick={() => this.filterSize(50)}
-                              >
-                                50
-                              </DropdownItem>
-                              <DropdownItem
-                                tag="div"
-                                onClick={() => this.filterSize(100)}
-                              >
-                                100
-                              </DropdownItem>
-                              <DropdownItem
-                                tag="div"
-                                onClick={() => this.filterSize(134)}
-                              >
-                                134
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </UncontrolledDropdown>
-                        </div>
-                        <div className="d-flex flex-wrap justify-content-between mb-1">
-                          <div className="table-input mr-1">
-                            <Input
-                              placeholder="search..."
-                              onChange={(e) =>
-                                this.updateSearchQuery(e.target.value)
-                              }
-                              value={this.state.value}
-                            />
-                          </div>
-                          <div className="export-btn">
-                            <Button.Ripple
-                              color="primary"
-                              onClick={() => this.gridApi.exportDataAsCsv()}
+        <Row className="app-user-list">
+          <Col sm="12"></Col>
+          <Col sm="12">
+            <Card>
+              <Row className="m-2">
+                <Col>
+                  <h1 sm="6" className="float-left">
+                    Your Uploads
+                  </h1>
+                </Col>
+                <Col>
+                  <Route
+                    render={({ history }) => (
+                      <Button
+                        className=" btn btn-success float-right"
+                        onClick={
+                          () => history.push("/uploadgallary")
+                          // history.push("/app/astrology/addAstrologer")
+                        }
+                      >
+                        Add Your gallary
+                      </Button>
+                    )}
+                  />
+                </Col>
+              </Row>
+              <CardBody>
+                {this.state.rowData === null ? null : (
+                  <div className="ag-theme-material w-100 my-2 ag-grid-table">
+                    <div className="d-flex flex-wrap justify-content-between align-items-center">
+                      <div className="mb-1">
+                        <UncontrolledDropdown className="p-1 ag-dropdown">
+                          <DropdownToggle tag="div">
+                            {this.gridApi
+                              ? this.state.currenPageSize
+                              : "" * this.state.getPageSize -
+                                (this.state.getPageSize - 1)}{" "}
+                            -{" "}
+                            {this.state.rowData.length -
+                              this.state.currenPageSize *
+                                this.state.getPageSize >
+                            0
+                              ? this.state.currenPageSize *
+                                this.state.getPageSize
+                              : this.state.rowData.length}{" "}
+                            of {this.state.rowData.length}
+                            <ChevronDown className="ml-50" size={15} />
+                          </DropdownToggle>
+                          <DropdownMenu right>
+                            <DropdownItem
+                              tag="div"
+                              onClick={() => this.filterSize(20)}
                             >
-                              Export as CSV
-                            </Button.Ripple>
-                          </div>
+                              20
+                            </DropdownItem>
+                            <DropdownItem
+                              tag="div"
+                              onClick={() => this.filterSize(50)}
+                            >
+                              50
+                            </DropdownItem>
+                            <DropdownItem
+                              tag="div"
+                              onClick={() => this.filterSize(100)}
+                            >
+                              100
+                            </DropdownItem>
+                            <DropdownItem
+                              tag="div"
+                              onClick={() => this.filterSize(134)}
+                            >
+                              134
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </UncontrolledDropdown>
+                      </div>
+                      <div className="d-flex flex-wrap justify-content-between mb-1">
+                        <div className="table-input mr-1">
+                          <Input
+                            placeholder="search..."
+                            onChange={(e) =>
+                              this.updateSearchQuery(e.target.value)
+                            }
+                            value={this.state.value}
+                          />
+                        </div>
+                        <div className="export-btn">
+                          <Button.Ripple
+                            color="primary"
+                            onClick={() => this.gridApi.exportDataAsCsv()}
+                          >
+                            Export as CSV
+                          </Button.Ripple>
                         </div>
                       </div>
-                      <ContextLayout.Consumer>
-                        {(context) => (
-                          <AgGridReact
-                            gridOptions={{}}
-                            rowSelection="multiple"
-                            defaultColDef={defaultColDef}
-                            columnDefs={columnDefs}
-                            rowData={rowData}
-                            onGridReady={this.onGridReady}
-                            colResizeDefault={"shift"}
-                            animateRows={true}
-                            floatingFilter={false}
-                            pagination={true}
-                            paginationPageSize={this.state.paginationPageSize}
-                            pivotPanelShow="always"
-                            enableRtl={context.state.direction === "rtl"}
-                          />
-                        )}
-                      </ContextLayout.Consumer>
                     </div>
-                  )}
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-      )
+                    <ContextLayout.Consumer>
+                      {(context) => (
+                        <AgGridReact
+                          gridOptions={{}}
+                          rowSelection="multiple"
+                          defaultColDef={defaultColDef}
+                          columnDefs={columnDefs}
+                          rowData={rowData}
+                          onGridReady={this.onGridReady}
+                          colResizeDefault={"shift"}
+                          animateRows={true}
+                          floatingFilter={false}
+                          pagination={true}
+                          paginationPageSize={this.state.paginationPageSize}
+                          pivotPanelShow="always"
+                          enableRtl={context.state.direction === "rtl"}
+                        />
+                      )}
+                    </ContextLayout.Consumer>
+                  </div>
+                )}
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

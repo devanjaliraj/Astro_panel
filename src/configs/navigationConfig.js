@@ -59,14 +59,14 @@ const navigationConfig = [
     navLink: "/app/astrochat/chatastro",
   },
 
-  {
-    id: "chat",
-    title: "Chat",
-    type: "item",
-    icon: <Icon.MessageSquare size={16} />,
-    navLink: "/chat",
-    permissions: ["admin", "editor"],
-  },
+  // {
+  //   id: "chat",
+  //   title: "Chat",
+  //   type: "item",
+  //   icon: <Icon.MessageSquare size={16} />,
+  //   navLink: "/chat",
+  //   permissions: ["admin", "editor"],
+  // },
 
   {
     id: "Uploads",
