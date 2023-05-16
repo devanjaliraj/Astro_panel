@@ -14,6 +14,7 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
+  Label,
 } from "reactstrap";
 import axiosConfig from "../../../axiosConfig";
 import "../../../assets/scss/video.scss";
@@ -32,52 +33,51 @@ const propTypes = {};
 const defaultProps = {};
 
 const Uploads = () => {
-  const [video, setvideo] = useState({});
-  const [image, setimage] = useState({});
+  const [video, setvideo] = useState("");
+  // const [image, setimage] = useState({});
 
-  const Uplaodimage = () => {
-    console.log("image", image);
-  };
   const handlevideoUpload = () => {
     const astroid = localStorage.getItem("astroId");
 
+    console.log(video);
+    console.log(astroid);
+
     const gallry = new FormData();
+    gallry.append("astroId", astroid);
+    gallry.append("file", video);
+    axiosConfig
+      .post(`/admin/upload_astrogallery`, gallry)
+      .then((res) => {
+        console.log(res);
+        if (res?.data.message === "success") {
+          swal(" Uploaded Sucessfully");
+        }
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
 
-    if (video?.type?.split("/")[0] === "image") {
-      gallry.append("astroId", astroid);
-      gallry.append("image", video);
+    // if (video?.type?.split("/")[0] === "image") {
+    // }
+    // if (video?.type?.split("/")[0] === "video") {
+    //   gallry.append("astroId", astroid);
+    //   gallry.append("video", video);
 
-      axiosConfig
-        .post(`/admin/upload_astrogallery`, gallry)
-        .then((res) => {
-          console.log(res?.data.message);
-          if (res?.data.message === "success") {
-            swal("Image Uploaded Sucessfully");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-    if (video?.type?.split("/")[0] === "video") {
-      gallry.append("astroId", astroid);
-      gallry.append("video", video);
+    //   axiosConfig
+    //     .post(`/admin/upload_astrogallery`, gallry)
+    //     .then((res) => {
+    //       console.log(res);
+    //       if (res?.data.message === "success") {
+    //         swal("Video Uploaded Sucessfully");
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }
 
-      axiosConfig
-        .post(`/admin/upload_astrogallery`, gallry)
-        .then((res) => {
-          console.log(res);
-          if (res?.data.message === "success") {
-            swal("Video Uploaded Sucessfully");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-
-    console.log("video", video?.type?.split("/")[0] === "video");
-    console.log("video", video?.type?.split("/")[0] === "image");
+    // console.log("video", video?.type?.split("/")[0] === "video");
+    // console.log("video", video?.type?.split("/")[0] === "image");
   };
   return (
     <div>
@@ -85,12 +85,12 @@ const Uploads = () => {
         <div>
           <Card>
             <Row>
-              <Col lg="3" sm="3" md="3">
-                <div className="d-flex container">
-                  <div>
-                    <h3 className="mt-2 mb-1 mx-3"> Upload </h3>
+              <Col lg="6" sm="6" md="6">
+                <Row>
+                  <div className="d-flex container">
+                    <h3 className="mt-2 mb-1 mx-3"> Upload Your Gallary </h3>
                   </div>
-                </div>
+                </Row>
               </Col>
               <Col>
                 <div className="d-flex justify-content-end container mt-2 mr-1">
@@ -116,10 +116,15 @@ const Uploads = () => {
                     <Row className="uploadmain">
                       <Col>
                         <div>
+                          <Label>
+                            <p style={{ color: "red" }}>
+                              png,jpg,jpeg,mp4-only{" "}
+                            </p>
+                          </Label>
                           <Input
                             name="file"
                             onChange={(e) => setvideo(e.target.files[0])}
-                            accept="video/*,.png, .jpg, .jpeg"
+                            accept="video/mp4,.png,.jpg,.jpeg"
                             type="file"
                           />
                         </div>
@@ -129,7 +134,7 @@ const Uploads = () => {
                           <Button
                             onClick={handlevideoUpload}
                             size="sm"
-                            className="bntuploadsvideo"
+                            className="bntuploadsvideo mt-3"
                             color="primary"
                           >
                             Upload

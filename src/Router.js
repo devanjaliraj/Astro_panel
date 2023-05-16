@@ -65,11 +65,21 @@ const AddUser = lazy(() => import("./views/apps/user/AddUser"));
 const ViewUser = lazy(() => import("./views/apps/user/ViewUser"));
 const EditUser = lazy(() => import("./views/apps/user/EditUser"));
 const videocall = lazy(() => import("./views/apps/astrochat/VideoAstro"));
+const liveastro = lazy(() => import("./views/apps/astrochat/LiveAstro"));
 const videocallYour = lazy(() =>
   import("./views/apps/astrochat/YourVideocall")
 );
+const yourliveStream = lazy(() =>
+  import("./views/apps/astrochat/YourliveStream")
+);
+const yourliveStreamone = lazy(() =>
+  import("./views/apps/astrochat/YourliveStreamone")
+);
 const videocallMain = lazy(() =>
   import("./views/apps/astrochat/VideoAstroMain")
+);
+const liveStreaming = lazy(() =>
+  import("./views/apps/astrochat/LiveAstromain")
 );
 const Uploads = lazy(() => import("./views/apps/Uploads/UploadMain"));
 const Upload = lazy(() => import("./views/apps/Uploads/Uploads"));
@@ -84,6 +94,9 @@ const WalletManagement = lazy(() =>
 //Transaction history//
 const TransactionHistory = lazy(() =>
   import("./views/apps/transaction/TransactionHistory")
+);
+const withdrawlrest = lazy(() =>
+  import("./views/apps/transaction/Withdrawlrqst.js/Withdrawl")
 );
 // memberShip//
 const MemberShipList = lazy(() =>
@@ -470,8 +483,12 @@ class AppRouter extends React.Component {
             <AppRoute path="/app/user/viewUser" component={ViewUser} />
             <AppRoute path="/chat" component={chat} />
             <AppRoute path="/videocall" component={videocall} />
+            <AppRoute path="/liveastro" component={liveastro} />
             <AppRoute path="/astrovideocall" component={videocallYour} />
+            <AppRoute path="/yourlivestream" component={yourliveStream} />
+            <AppRoute path="/yourlivestreamone" component={yourliveStreamone} />
             <AppRoute path="/videocallmain" component={videocallMain} />
+            <AppRoute path="/livestreaming" component={liveStreaming} />
             <AppRoute path="/uploads" component={Uploads} />
             <AppRoute path="/uploadgallary" component={Upload} />
             <AppRoute path="/userchat/chatlist" component={chatlist} />
@@ -713,6 +730,10 @@ class AppRouter extends React.Component {
             <AppRoute
               path="/app/transaction/transactionHistory"
               component={TransactionHistory}
+            />
+            <AppRoute
+              path="/app/transaction/withdrawlrqest"
+              component={withdrawlrest}
             />
             {/* memberSHip */}
             <AppRoute

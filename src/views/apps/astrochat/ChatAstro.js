@@ -113,7 +113,7 @@ class ChatApp extends React.Component {
     });
     await axios
       .get(
-        `http://65.2.148.70:8000/user/allchatwithAstro/${user?.astroid?._id}`
+        `http://65.2.175.154:8000/user/allchatwithAstro/${user?.astroid?._id}`
       )
       .then((response) => {
         console.log(response?.data?.data);

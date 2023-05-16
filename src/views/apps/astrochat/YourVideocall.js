@@ -25,14 +25,10 @@ function YourVideocall() {
     // Pass your App ID here.
     appId: "7d1f07c76f9d46be86bc46a791884023",
     // Set the channel name.
-    // channel: "anujesh",
     channel: channelNamecreated,
     // Pass your temp token here.
     token: Token || localStorage.getItem("astrotokenforvideocall"),
-    // token:
-    //   "007eJxTYDgh+fefxobNlcqHuZiV5tUksPQsnbky8DLD45MxN08G9yxRYDBPMUwzME82N0uzTDExS0q1MEtKNjFLNLc0tLAwMTAyXn4pMqUhkJEh7PIBZkYGCATx2RkS80qzUoszGBgA59ghrA==",
-    // token:
-    //   "0067d1f07c76f9d46be86bc46a791884023IACziv5tFbYdCMOClwbRP0u01RUPp6MZ+nTKCno+eVh9/UlEne4AAAAAEADAxRILNW1bZAEAAQBVqFpk",
+
     // Set the user ID.
     uid: 0,
     // Set the user role
@@ -65,8 +61,7 @@ function YourVideocall() {
   const handlestatus = (e) => {
     e.preventDefault();
     const astroid = localStorage.getItem("astroId");
-    console.log(astroid);
-    console.log(Status);
+
     let payload = {
       astroAccount: astroid,
     };
@@ -110,7 +105,7 @@ function YourVideocall() {
       <Card>
         <Row>
           {/* <VideoCalls /> */}
-          <Col lg="3" md="3" sm="3">
+          <Col lg="4" md="4" sm="4">
             <div className="container mt-2 mb-1">
               <Button onClick={(e) => handlestatus(e)} color="success">
                 show yourSelf
@@ -119,26 +114,32 @@ function YourVideocall() {
           </Col>
           <Col>
             <div className="container mt-1 mb-1">
-              <FormGroup check>
-                <Input
-                  value="Active"
-                  onClick={(e) => {
-                    setStatus(e.target.value);
-                  }}
-                  name="radio1"
-                  type="radio"
-                />{" "}
-                <Label check>Online</Label>
-              </FormGroup>
-              <FormGroup check>
-                <Input
-                  value="Deactive"
-                  onClick={(e) => setStatus(e.target.value)}
-                  name="radio1"
-                  type="radio"
-                />{" "}
-                <Label check>Offline</Label>
-              </FormGroup>
+              <Row>
+                <Col className="mt-1">
+                  <FormGroup check>
+                    <Input
+                      value="Active"
+                      onClick={(e) => {
+                        setStatus(e.target.value);
+                      }}
+                      name="radio1"
+                      type="radio"
+                    />{" "}
+                    <Label check>Online</Label>
+                  </FormGroup>
+                </Col>
+                <Col className="mt-1">
+                  <FormGroup check>
+                    <Input
+                      value="Deactive"
+                      onClick={(e) => setStatus(e.target.value)}
+                      name="radio1"
+                      type="radio"
+                    />{" "}
+                    <Label check>Offline</Label>
+                  </FormGroup>
+                </Col>
+              </Row>
             </div>
           </Col>
         </Row>
@@ -153,7 +154,7 @@ function YourVideocall() {
                 {Addcall === true ? (
                   <>
                     <Button onClick={() => setVideoCall(true)} color="success">
-                      Add call
+                      Call Now
                     </Button>
                   </>
                 ) : null}

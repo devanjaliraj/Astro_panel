@@ -59,14 +59,14 @@ const navigationConfig = [
     navLink: "/app/astrochat/chatastro",
   },
 
-  // {
-  //   id: "chat",
-  //   title: "Chat",
-  //   type: "item",
-  //   icon: <Icon.MessageSquare size={16} />,
-  //   navLink: "/chat",
-  //   permissions: ["admin", "editor"],
-  // },
+  {
+    id: "chat",
+    title: "Chat",
+    type: "item",
+    icon: <Icon.MessageSquare size={16} />,
+    navLink: "/chat",
+    permissions: ["admin", "editor"],
+  },
 
   {
     id: "Uploads",
@@ -130,6 +130,50 @@ const navigationConfig = [
       },
     ],
   },
+  {
+    type: "groupHeader",
+    groupTitle: "LiveStreaming",
+  },
+  {
+    id: "Yourvideo",
+    title: "LiveStreaming ",
+    type: "item",
+    icon: <Icon.Video size={16} />,
+    navLink: "/yourlivestream",
+    permissions: ["admin", "editor"],
+  },
+  // {
+  //   id: "liveStreaming",
+  //   title: "LiveStreaming",
+  //   type: "collapse",
+  //   icon: <Icon.Video size={20} />,
+  //   children: [
+  //     {
+  //       id: "video",
+  //       title: "Streaming Channel",
+  //       type: "item",
+  //       icon: <Icon.List size={16} />,
+  //       navLink: "/livestreaming",
+  //       permissions: ["admin", "editor"],
+  //     },
+  //     {
+  //       id: "Yourvideo",
+  //       title: "LiveStreaming ",
+  //       type: "item",
+  //       icon: <Icon.Video size={16} />,
+  //       navLink: "/yourlivestream",
+  //       permissions: ["admin", "editor"],
+  //     },
+  //     // {
+  //     //   id: "Yourvideolive",
+  //     //   title: "LiveStreamingone",
+  //     //   type: "item",
+  //     //   icon: <Icon.Video size={16} />,
+  //     //   navLink: "/yourlivestreamone",
+  //     //   permissions: ["admin", "editor"],
+  //     // },
+  //   ],
+  // },
   {
     id: "waitqueue",
     title: "Wait Queue List",
@@ -206,7 +250,7 @@ const navigationConfig = [
     type: "item",
     icon: <Icon.RefreshCcw size={20} />,
     permissions: ["admin", "editor"],
-    navLink: "/app/driver/withdrawalRequests",
+    navLink: "/app/transaction/withdrawlrqest",
   },
 
   {

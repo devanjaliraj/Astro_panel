@@ -26,8 +26,6 @@ import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
 class UploadMain extends React.Component {
   state = {
     rowData: [],
-    Images: [],
-    Videos: [],
     paginationPageSize: 20,
     currenPageSize: "",
     getPageSize: "",
@@ -52,14 +50,18 @@ class UploadMain extends React.Component {
 
       {
         headerName: "Image/Video",
-        field: "image",
+        field: "file",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
+          // console.log(params.data);
           return (
             <div>
               {/* <span>{params.data.firstname}</span> */}
-              <span>params?.data?.image?.length? "Image" : "Video"</span>
+              <span>
+                {params.data.file?.includes("mp4") ? <>Video</> : <>Image</>}
+                {/* params?.data?.image?.length? "Image" : "Video" */}
+              </span>
             </div>
           );
         },
@@ -71,155 +73,182 @@ class UploadMain extends React.Component {
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
-          console.log(params?.data?.image[0]);
-          console.log(params?.data?.video[0]);
-
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              {/* <video class="afterglow" id="myvideo" width="40" height="40"> */}
-              {/* <source type="video/mp4" src={params?.data?.video[0]} /> */}
-              {/* </video> */}
-              {/* <img
-                style={{ borderRadius: "50%" }}
-                width={38}
-                src={params?.data?.image[0]}
-                alt="image"
-              /> */}
+              <div class="">
+                {params?.data.file?.includes("mp4") ? (
+                  <>
+                    <div style={{ width: "100%" }} className="videogallry">
+                      <video
+                        style={{
+                          width: "100%",
+                          background: "none",
+                          borderRadius: "8px",
+                        }}
+                        className="videosource"
+                        width="50px"
+                        height="60px"
+                        controls
+                      >
+                        <source src={params?.data.file} type="video/mp4" />
+                      </video>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div style={{ width: "100px" }} className="imagesize">
+                      <img
+                        style={{
+                          borderRadius: "8px",
+                          width: "90px",
+                          height: "38px",
+                          background: "none",
+                        }}
+                        className="imagegallry"
+                        // width={320}
+                        // height={250}
+                        src={params?.data.file}
+                        alt="gallryimg"
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           );
         },
       },
-      {
-        headerName: "Mobile No.",
-        field: "mobile",
-        filter: true,
-        width: 120,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>params.data.userid?.mobile</span>
-            </div>
-          );
-        },
-      },
-      {
-        headerName: "Gender",
-        field: "gender",
-        filter: true,
-        width: 120,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>params.data.gender</span>
-            </div>
-          );
-        },
-      },
-      {
-        headerName: "DOB",
-        field: "dob",
-        filter: true,
-        width: 120,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>params.data.dob</span>
-            </div>
-          );
-        },
-      },
-      {
-        headerName: "Time",
-        field: "date_of_time",
-        filter: true,
-        width: 120,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>params.data.date_of_time</span>
-            </div>
-          );
-        },
-      },
-      {
-        headerName: "Birth Place",
-        field: "birthPlace",
-        filter: true,
-        width: 120,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>params.data.birthPlace</span>
-            </div>
-          );
-        },
-      },
-      {
-        headerName: "Birth Place",
-        field: "birthPlace",
-        filter: true,
-        width: 120,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>params.data.birthPlace</span>
-            </div>
-          );
-        },
-      },
+      // {
+      //   headerName: "Mobile No.",
+      //   field: "mobile",
+      //   filter: true,
+      //   width: 120,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>params.data.userid?.mobile</span>
+      //       </div>
+      //     );
+      //   },
+      // },
+      // {
+      //   headerName: "Gender",
+      //   field: "gender",
+      //   filter: true,
+      //   width: 120,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>params.data.gender</span>
+      //       </div>
+      //     );
+      //   },
+      // },
+      // {
+      //   headerName: "DOB",
+      //   field: "dob",
+      //   filter: true,
+      //   width: 120,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>params.data.dob</span>
+      //       </div>
+      //     );
+      //   },
+      // },
+      // {
+      //   headerName: "Time",
+      //   field: "date_of_time",
+      //   filter: true,
+      //   width: 120,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>params.data.date_of_time</span>
+      //       </div>
+      //     );
+      //   },
+      // },
+      // {
+      //   headerName: "Birth Place",
+      //   field: "birthPlace",
+      //   filter: true,
+      //   width: 120,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>params.data.birthPlace</span>
+      //       </div>
+      //     );
+      //   },
+      // },
+      // {
+      //   headerName: "Birth Place",
+      //   field: "birthPlace",
+      //   filter: true,
+      //   width: 120,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>params.data.birthPlace</span>
+      //       </div>
+      //     );
+      //   },
+      // },
 
-      {
-        headerName: "Marital Status",
-        field: "marital_status",
-        filter: true,
-        width: 120,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>params.data.marital_status</span>
-            </div>
-          );
-        },
-      },
-      {
-        headerName: "Occupation",
-        field: "occupation",
-        filter: true,
-        width: 120,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>params.data.occupation</span>
-            </div>
-          );
-        },
-      },
-      {
-        headerName: "Topic Of concern ",
-        field: "topic_of_cnsrn",
-        filter: true,
-        width: 120,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>params.data.topic_of_cnsrn</span>
-            </div>
-          );
-        },
-      },
-      {
-        headerName: "Your Topic Of concern ",
-        field: "entertopic_of_cnsrn",
-        filter: true,
-        width: 120,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>params.data.entertopic_of_cnsrn</span>
-            </div>
-          );
-        },
-      },
+      // {
+      //   headerName: "Marital Status",
+      //   field: "marital_status",
+      //   filter: true,
+      //   width: 120,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>params.data.marital_status</span>
+      //       </div>
+      //     );
+      //   },
+      // },
+      // {
+      //   headerName: "Occupation",
+      //   field: "occupation",
+      //   filter: true,
+      //   width: 120,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>params.data.occupation</span>
+      //       </div>
+      //     );
+      //   },
+      // },
+      // {
+      //   headerName: "Topic Of concern ",
+      //   field: "topic_of_cnsrn",
+      //   filter: true,
+      //   width: 120,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>params.data.topic_of_cnsrn</span>
+      //       </div>
+      //     );
+      //   },
+      // },
+      // {
+      //   headerName: "Your Topic Of concern ",
+      //   field: "entertopic_of_cnsrn",
+      //   filter: true,
+      //   width: 120,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>params.data.entertopic_of_cnsrn</span>
+      //       </div>
+      //     );
+      //   },
+      // },
 
       //   {
       //     headerName: "Status",
@@ -291,7 +320,7 @@ class UploadMain extends React.Component {
                   />
                 )}
               /> */}
-              {/* <Trash2
+              <Trash2
                 className="mr-50"
                 size="25px"
                 color="red"
@@ -300,25 +329,35 @@ class UploadMain extends React.Component {
                   this.runthisfunction(params.data._id);
                   this.gridApi.updateRowData({ remove: selectedData });
                 }}
-              /> */}
+              />
             </div>
           );
         },
       },
     ],
   };
+  runthisfunction = (id) => {
+    console.log(id);
+    axiosConfig
+      .get(`/user/delGalleryvideo/${id}`)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   async componentDidMount() {
     let astroId = localStorage.getItem("astroId");
 
     axiosConfig
       .get(`/admin/get_astroGallery/${astroId}`)
-      // .get(`/admin/get_astroGallery/${Param.id}`)
       .then((res) => {
-        this.setState({ gallary: res?.data?.data });
-        console.log("images", res.data.data.images);
-        console.log("Videos", res.data.data.videos);
-        this.setState({ Images: res.data?.data?.images });
-        this.setState({ Videos: res.data?.data?.videos });
+        console.log("images", res.data.data);
+        this.setState({ rowData: res.data.data });
+
+        // this.setState({ Images: res.data?.data?.images });
+        // this.setState({ Videos: res.data?.data?.videos });
       })
       .catch((err) => {
         console.log(err);
@@ -341,17 +380,6 @@ class UploadMain extends React.Component {
     //   });
   }
 
-  async runthisfunction(id) {
-    console.log(id);
-    await axiosConfig.get(`/admin/dlt_ChatIntek/${id}`).then(
-      (response) => {
-        console.log(response);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
   onGridReady = (params) => {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -459,7 +487,7 @@ class UploadMain extends React.Component {
                           </DropdownMenu>
                         </UncontrolledDropdown>
                       </div>
-                      <div className="d-flex flex-wrap justify-content-between mb-1">
+                      {/* <div className="d-flex flex-wrap justify-content-between mb-1">
                         <div className="table-input mr-1">
                           <Input
                             placeholder="search..."
@@ -477,7 +505,7 @@ class UploadMain extends React.Component {
                             Export as CSV
                           </Button.Ripple>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     <ContextLayout.Consumer>
                       {(context) => (
