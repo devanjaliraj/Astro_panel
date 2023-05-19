@@ -19,6 +19,12 @@ import { Route } from "react-router-dom";
 import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
 import Axios from "axios";
 import swal from "sweetalert";
+import { EditorState, convertToRaw } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import draftToHtml from "draftjs-to-html";
+import "../../../../src/assets/scss/pages/users.scss";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+// import "../../../../assets/scss/plugins/extensions/editor.scss";
 
 export class AddProduct extends Component {
   constructor(props) {
@@ -26,22 +32,57 @@ export class AddProduct extends Component {
     this.state = {
       mrp: "",
       category: "",
+      selectedFile: {},
+      blogImg: "",
       product: "",
       categoryList: [],
       productList: [],
+      desc: "",
+      data: "data",
+      editorState: EditorState.createEmpty(),
     };
   }
-
+  onEditorStateChange = (editorState) => {
+    this.setState({
+      editorState,
+      desc: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+    });
+    console.log("descccc", this.state.desc);
+  };
   // onChangeHandler = (event) => {
   //   this.setState({ selectedFile: event.target.files[0] });
   //   this.setState({ selectedName: event.target.files[0].name });
   //   console.log(event.target.files[0]);
   // };
-
-  componentDidUpdate() {
+  uploadImageCallBack = (file) => {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "https://api.imgur.com/3/image");
+      xhr.setRequestHeader("Authorization", "Client-ID 7e1c3e366d22aa3");
+      const data = new FormData();
+      data.append("image", file);
+      xhr.send(data);
+      xhr.addEventListener("load", () => {
+        const response = JSON.parse(xhr.responseText);
+        resolve(response);
+      });
+      xhr.addEventListener("error", () => {
+        const error = JSON.parse(xhr.responseText);
+        reject(error);
+      });
+    });
+  };
+  onChangeHandler = (event) => {
+    this.setState({ selectedFile: event.target.file[0] });
+    // this.setState({ selectedName: event.target.files.name });
+    console.log(event.target.file[0]);
+  };
+  componentDidUpdate(prevState, prevProps) {
+    console.log(prevState);
+    console.log(prevProps);
     // console.log(this.state.category);
-    let { id } = this.props.match.params;
 
+    // if (this.state.category) {
     axiosConfig
       .get(`/user/productbycategory/${this.state.category}`)
       .then((response) => {
@@ -51,6 +92,7 @@ export class AddProduct extends Component {
       .catch((error) => {
         console.log(error);
       });
+    // }
   }
 
   componentDidMount() {
@@ -81,6 +123,7 @@ export class AddProduct extends Component {
         product: this.state.product,
         category: this.state.category,
         price: this.state.mrp,
+        desc: this.state.desc,
       })
       .then((response) => {
         console.log(response.data.data);
@@ -171,6 +214,27 @@ export class AddProduct extends Component {
                     onChange={this.changeHandler}
                   ></Input>
                 </Col>
+
+                <Col lg="10" md="10" sm="10" className="mb-2">
+                  <Label>Description</Label>
+                  <Editor
+                    wrapperClassName="demo-wrapper"
+                    editorClassName="demo-editor"
+                    onEditorStateChange={this.onEditorStateChange}
+                    toolbar={{
+                      inline: { inDropdown: true },
+                      list: { inDropdown: true },
+                      textAlign: { inDropdown: true },
+                      link: { inDropdown: true },
+                      history: { inDropdown: true },
+                      // image: {
+                      //   uploadCallback: this.uploadImageCallBack,
+                      //   previewImage: true,
+                      //   alt: { present: true, mandatory: true },
+                      // },
+                    }}
+                  />
+                </Col>
               </Row>
               {/* <Col lg="6" md="6" sm="6" className="mb-2">
                 <Label className="mb-1">Status</Label>
@@ -196,7 +260,7 @@ export class AddProduct extends Component {
                 </div>
               </Col> */}
               <Row>
-                <Col lg="6" md="6" sm="6" className="mb-2">
+                <Col lg="6" md="6" sm="6" className="mb-1 mt-2">
                   <Button.Ripple
                     color="primary"
                     type="submit"

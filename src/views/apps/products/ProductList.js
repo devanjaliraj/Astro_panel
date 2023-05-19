@@ -11,6 +11,7 @@ import {
   DropdownItem,
   DropdownToggle,
 } from "reactstrap";
+import ReactHtmlParser from "react-html-parser";
 import axiosConfig from "../../../axiosConfig";
 import axios from "axios";
 import { ContextLayout } from "../../../utility/context/Layout";
@@ -50,7 +51,7 @@ class ProductList extends React.Component {
         headerName: "Product Name",
         field: "product?.productname",
         filter: true,
-        width: 200,
+        width: 130,
         cellRendererFramework: (params) => {
           return (
             <div>
@@ -64,7 +65,7 @@ class ProductList extends React.Component {
         headerName: "Thumbnail Image",
         field: "product?.image[0]",
         filter: true,
-        width: 200,
+        width: 150,
         cellRendererFramework: (params) => {
           return (
             <div>
@@ -82,7 +83,7 @@ class ProductList extends React.Component {
         headerName: "Category Name",
         field: "category?.name",
         filter: true,
-        width: 200,
+        width: 180,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
@@ -100,6 +101,19 @@ class ProductList extends React.Component {
           return (
             <div>
               <span>{params.data.price}</span>
+            </div>
+          );
+        },
+      },
+      {
+        headerName: "Desc",
+        field: "desc",
+        filter: true,
+        width: 200,
+        cellRendererFramework: (params) => {
+          return (
+            <div>
+              <span>{ReactHtmlParser(params.data?.desc)}</span>
             </div>
           );
         },
@@ -238,14 +252,14 @@ class ProductList extends React.Component {
                             {this.gridApi
                               ? this.state.currenPageSize
                               : "" * this.state.getPageSize -
-                              (this.state.getPageSize - 1)}{" "}
+                                (this.state.getPageSize - 1)}{" "}
                             -{" "}
                             {this.state.rowData.length -
                               this.state.currenPageSize *
-                              this.state.getPageSize >
-                              0
+                                this.state.getPageSize >
+                            0
                               ? this.state.currenPageSize *
-                              this.state.getPageSize
+                                this.state.getPageSize
                               : this.state.rowData.length}{" "}
                             of {this.state.rowData.length}
                             <ChevronDown className="ml-50" size={15} />

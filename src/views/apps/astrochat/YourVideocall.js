@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import AgoraUIKit from "agora-react-uikit";
-
 import "./../../../assets/scss/video.scss";
-import Customvideo from "./Customvideo";
+
 import axiosConfig from "../../../axiosConfig";
 import { history } from "../../../history";
 import swal from "sweetalert";
-
-import VideoCalls from "./VideoCalls";
 
 function YourVideocall() {
   const [videoCall, setVideoCall] = useState(false);
@@ -25,14 +22,16 @@ function YourVideocall() {
     // Pass your App ID here.
     appId: "7d1f07c76f9d46be86bc46a791884023",
     // Set the channel name.
+    // channel: "anujesh",
     channel: channelNamecreated,
     // Pass your temp token here.
+    // token:
+    //   "0067d1f07c76f9d46be86bc46a791884023IAB5FVqr9cmIzH4opLCsVqglu9vtMjTK/T1tWsNzIU0EaUlEne4AAAAAEAAk4o61UgtnZAEAAQByRmZk",
     token: Token || localStorage.getItem("astrotokenforvideocall"),
 
     // Set the user ID.
     uid: 0,
     // Set the user role
-    role: "",
   };
   const callbacks = {
     EndCall: () => {
@@ -40,23 +39,6 @@ function YourVideocall() {
       setVideoCall(false);
     },
   };
-
-  // const handleSubmit = (e) => {
-  //   const astroid = localStorage.getItem("astroId");
-
-  //   axiosConfig
-  //     .post(`/user/add_VideoChannel`, {
-  //       astroid: astroid,
-  //       channelName: channelname,
-  //     })
-  //     .then((res) => {
-  //       setchannel("");
-  //       swal("Channel Created Successfully");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
 
   const handlestatus = (e) => {
     e.preventDefault();
@@ -69,10 +51,13 @@ function YourVideocall() {
       axiosConfig
         .post(`/user/astroVideoCall`, payload)
         .then((res) => {
-          console.log(res.data.astroAccount);
+          console.log(res.data);
+          setchannelName(res.data.channelName);
           setToken(res.data.astroAccount);
           localStorage.setItem("astrotokenforvideocall", res.data.astroAccount);
-          setAddcall(true);
+          if (res.data.channelName && res.data.astroAccount) {
+            setAddcall(true);
+          }
 
           // setVideoCall(true);
         })
@@ -81,34 +66,34 @@ function YourVideocall() {
         });
     }
     if (Status === "Deactive") {
-      localStorage.removeItem("astrotokenforvideocall");
       setAddcall(false);
+
+      // localStorage.removeItem("astrotokenforvideocall");
     }
   };
-  useEffect(() => {
-    const astroid = localStorage.getItem("astroId");
-    console.log(astroid);
+  // useEffect(() => {
+  //   const astroid = localStorage.getItem("astroId");
+  //   // console.log(astroid);
 
-    axiosConfig
-      // .get(`/user/getoneChannl/644fae265f6b65e11a4bdbd7`)
-      .get(`user/channelList/${astroid}`)
-      .then((res) => {
-        console.log(res.data?.data[0]?.channelName);
-        setchannelName(res.data?.data[0]?.channelName);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  //   axiosConfig
+
+  //     .get(`user/channelList/${astroid}`)
+  //     .then((res) => {
+  //       console.log(res.data?.data[0]?.channelName);
+  //       setchannelName(res.data?.data[0]?.channelName);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
   return (
     <div>
       <Card>
         <Row>
-          {/* <VideoCalls /> */}
           <Col lg="4" md="4" sm="4">
             <div className="container mt-2 mb-1">
               <Button onClick={(e) => handlestatus(e)} color="success">
-                show yourSelf
+                VideoCall
               </Button>
             </div>
           </Col>
@@ -124,7 +109,7 @@ function YourVideocall() {
                       }}
                       name="radio1"
                       type="radio"
-                    />{" "}
+                    />
                     <Label check>Online</Label>
                   </FormGroup>
                 </Col>
@@ -132,7 +117,10 @@ function YourVideocall() {
                   <FormGroup check>
                     <Input
                       value="Deactive"
-                      onClick={(e) => setStatus(e.target.value)}
+                      onClick={(e) => {
+                        setStatus(e.target.value);
+                        setAddcall(false);
+                      }}
                       name="radio1"
                       type="radio"
                     />{" "}
@@ -146,7 +134,7 @@ function YourVideocall() {
         <Row>
           <div className="container mt-1 mb-1">
             {videoCall && Status === "Active" ? (
-              <div style={{ display: "flex", width: "75vw", height: "80vh" }}>
+              <div style={{ display: "flex", width: "70vw", height: "80vh" }}>
                 <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
               </div>
             ) : (
@@ -154,7 +142,7 @@ function YourVideocall() {
                 {Addcall === true ? (
                   <>
                     <Button onClick={() => setVideoCall(true)} color="success">
-                      Call Now
+                      Start Call
                     </Button>
                   </>
                 ) : null}

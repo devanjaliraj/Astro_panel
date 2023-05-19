@@ -83,3 +83,7 @@ button.denger.media-heading.gt-2.btn.btn-secondary {
   margin-right: 10px;
   color: #fff !important;
 }
+.DraftEditor-editorContainer, .DraftEditor-root, .public-DraftEditor-content {
+  height: 210px !important;
+  /* height: inherit; */
+}

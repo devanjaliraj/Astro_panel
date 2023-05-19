@@ -81,6 +81,7 @@ const videocallMain = lazy(() =>
 const liveStreaming = lazy(() =>
   import("./views/apps/astrochat/LiveAstromain")
 );
+// const liveStream = lazy(() => import("./views/apps/astrochat/LiveStreamdummy"));
 const Uploads = lazy(() => import("./views/apps/Uploads/UploadMain"));
 const Upload = lazy(() => import("./views/apps/Uploads/Uploads"));
 
@@ -485,10 +486,15 @@ class AppRouter extends React.Component {
             <AppRoute path="/videocall" component={videocall} />
             <AppRoute path="/liveastro" component={liveastro} />
             <AppRoute path="/astrovideocall" component={videocallYour} />
-            <AppRoute path="/yourlivestream" component={yourliveStream} />
+            <AppRoute
+              path="/yourlivestream"
+              component={yourliveStream}
+              fullLayout
+            />
             <AppRoute path="/yourlivestreamone" component={yourliveStreamone} />
             <AppRoute path="/videocallmain" component={videocallMain} />
             <AppRoute path="/livestreaming" component={liveStreaming} />
+            {/* <AppRoute path="/livestream" component={liveStream}  /> */}
             <AppRoute path="/uploads" component={Uploads} />
             <AppRoute path="/uploadgallary" component={Upload} />
             <AppRoute path="/userchat/chatlist" component={chatlist} />

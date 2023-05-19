@@ -67,6 +67,7 @@ function YourliveStreamone() {
   // };
 
   const handlestatus = (e) => {
+    // window.location.replace("/livestream");
     e.preventDefault();
     const astroid = localStorage.getItem("astroId");
 
@@ -91,6 +92,7 @@ function YourliveStreamone() {
     if (Status === "Deactive") {
       localStorage.removeItem("astrotokenforvideocall");
       setAddcall(false);
+      window.location.reload();
     }
   };
   useEffect(() => {

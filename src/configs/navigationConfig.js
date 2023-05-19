@@ -112,17 +112,17 @@ const navigationConfig = [
     type: "collapse",
     icon: <Icon.Video size={20} />,
     children: [
-      {
-        id: "video",
-        title: "Video-Channel",
-        type: "item",
-        icon: <Icon.List size={16} />,
-        navLink: "/videocallmain",
-        permissions: ["admin", "editor"],
-      },
+      // {
+      //   id: "video",
+      //   title: "Video-Channel",
+      //   type: "item",
+      //   icon: <Icon.List size={16} />,
+      //   navLink: "/videocallmain",
+      //   permissions: ["admin", "editor"],
+      // },
       {
         id: "Yourvideo",
-        title: "Videocall ",
+        title: "Videocall",
         type: "item",
         icon: <Icon.Video size={16} />,
         navLink: "/astrovideocall",
@@ -135,8 +135,8 @@ const navigationConfig = [
     groupTitle: "LiveStreaming",
   },
   {
-    id: "Yourvideo",
-    title: "LiveStreaming ",
+    id: "Yourstreaming",
+    title: "LiveStreaming",
     type: "item",
     icon: <Icon.Video size={16} />,
     navLink: "/yourlivestream",
