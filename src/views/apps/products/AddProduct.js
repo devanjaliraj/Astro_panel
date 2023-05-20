@@ -123,7 +123,7 @@ export class AddProduct extends Component {
         product: this.state.product,
         category: this.state.category,
         price: this.state.mrp,
-        desc: this.state.desc,
+        // desc: this.state.desc,
       })
       .then((response) => {
         console.log(response.data.data);
@@ -215,7 +215,7 @@ export class AddProduct extends Component {
                   ></Input>
                 </Col>
 
-                <Col lg="10" md="10" sm="10" className="mb-2">
+                {/* <Col lg="10" md="10" sm="10" className="mb-2">
                   <Label>Description</Label>
                   <Editor
                     wrapperClassName="demo-wrapper"
@@ -234,7 +234,7 @@ export class AddProduct extends Component {
                       // },
                     }}
                   />
-                </Col>
+                </Col> */}
               </Row>
               {/* <Col lg="6" md="6" sm="6" className="mb-2">
                 <Label className="mb-1">Status</Label>

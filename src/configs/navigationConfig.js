@@ -125,7 +125,7 @@ const navigationConfig = [
         title: "Videocall",
         type: "item",
         icon: <Icon.Video size={16} />,
-        navLink: "/astrovideocall",
+        navLink: "/startvideocall",
         permissions: ["admin", "editor"],
       },
     ],

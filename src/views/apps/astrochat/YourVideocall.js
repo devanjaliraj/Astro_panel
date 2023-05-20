@@ -87,7 +87,7 @@ function YourVideocall() {
   //     });
   // }, []);
   return (
-    <div>
+    <div className="videocallmain" style={{ height: "720px" }}>
       <Card>
         <Row>
           <Col lg="4" md="4" sm="4">
@@ -97,6 +97,7 @@ function YourVideocall() {
               </Button>
             </div>
           </Col>
+
           <Col>
             <div className="container mt-1 mb-1">
               <Row>
@@ -132,23 +133,23 @@ function YourVideocall() {
           </Col>
         </Row>
         <Row>
-          <div className="container mt-1 mb-1">
-            {videoCall && Status === "Active" ? (
-              <div style={{ display: "flex", width: "70vw", height: "80vh" }}>
-                <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
-              </div>
-            ) : (
-              <>
-                {Addcall === true ? (
-                  <>
+          {videoCall && Status === "Active" ? (
+            <div style={{ display: "flex", width: "100vw", height: "80vh" }}>
+              <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
+            </div>
+          ) : (
+            <>
+              {Addcall === true ? (
+                <>
+                  <div className="mx-2 mb-2">
                     <Button onClick={() => setVideoCall(true)} color="success">
-                      Start Call
+                      Click to join
                     </Button>
-                  </>
-                ) : null}
-              </>
-            )}
-          </div>
+                  </div>
+                </>
+              ) : null}
+            </>
+          )}
         </Row>
       </Card>
     </div>
