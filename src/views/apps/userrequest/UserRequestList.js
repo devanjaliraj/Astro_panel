@@ -243,7 +243,7 @@ class UserRideList extends React.Component {
   };
   async componentDidMount() {
     let astroId = localStorage.getItem("astroId");
-
+    console.log(astroId);
     await axiosConfig
       .get(`/admin/get_chat_intake/${astroId}`)
       .then((response) => {
