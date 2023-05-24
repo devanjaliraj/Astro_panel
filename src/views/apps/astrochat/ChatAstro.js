@@ -1,6 +1,6 @@
 import React from "react";
 // import { Link } from "react-router-dom";
-import { Container } from "reactstrap";
+import { Col, Container, Row } from "reactstrap";
 import "../../../assets/scss/pages/astrochat.scss";
 import Buyimg from "../../../assets/img/boy-img.png";
 // import Countdown from "react-countdown";
@@ -191,9 +191,86 @@ class ChatApp extends React.Component {
           breadCrumbActive="Chat"
         />
 
-        <section className="app-chatbg">
+        <section className="">
           <Container>
-            <div class="app rt-chat">
+            <Row>
+              <Col lg="4">
+                <div class="mymessagehead">
+                  <div class="mymsgsubhead">
+                    <h1 class="title">My messages</h1>
+                    <ChatAppList
+                      userChatList={
+                        this.state.userChatList.length
+                          ? this.state.userChatList
+                          : []
+                      }
+                      getChatRoomId={(user, i) => this.getChatRoomId(user, i)}
+                    />
+                  </div>
+                </div>
+              </Col>
+              <Col lg="8">
+                <div class="app rt-chat">
+                  <div class="messages">
+                    <div className="chat-header">
+                      <p>
+                        <span>
+                          <img
+                            src={
+                              this.state.roomChatData.length > 0
+                                ? this.state.userChatList[indexValue]?.userid
+                                    ?.userimg[0]
+                                : Buyimg
+                            }
+                            className="app-img"
+                            alt=""
+                          />
+                        </span>
+                        {this.state.roomChatData.length > 0
+                          ? this.state.userChatList[indexValue]?.userid
+                              ?.fullname
+                          : null}
+                      </p>
+                      <span className="appchattimer">
+                        {this.state.time.m} :{this.state.time.s}
+                      </span>
+                    </div>
+                    <div class="messages-history">
+                      <ChatAppMassage
+                        roomChatData={
+                          this.state.roomChatData.length > 0
+                            ? this.state.roomChatData
+                            : []
+                        }
+                      />
+                    </div>
+                    <form class="messages-inputs" o>
+                      <input
+                        type="text"
+                        placeholder="Send a message"
+                        onChange={(e) => {
+                          this.handleChange(e);
+                        }}
+                        value={this.state.msg}
+                        defaultValue={""}
+                      />
+                      <button
+                        onClick={(e) =>
+                          this.submitHandler(
+                            e,
+                            this.state.astroId,
+                            this.state.userId
+                          )
+                        }
+                      >
+                        <i class="material-icons">send</i>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+            {/* <div class="app rt-chat">
               <div class="contact-list">
                 <h1 class="title">My messages</h1>
                 <ChatAppList
@@ -260,7 +337,7 @@ class ChatApp extends React.Component {
                   </button>
                 </form>
               </div>
-            </div>
+            </div> */}
             {/* <div className="chat-bottom">
             <button>Close Chat</button>
           </div> */}

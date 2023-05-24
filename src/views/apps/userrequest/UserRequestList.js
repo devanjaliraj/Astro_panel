@@ -73,19 +73,19 @@ class UserRideList extends React.Component {
           );
         },
       },
-      {
-        headerName: "Mobile No.",
-        field: "mobile",
-        filter: true,
-        width: 200,
-        cellRendererFramework: (params) => {
-          return (
-            <div className="d-flex align-items-center cursor-pointer">
-              <span>{params.data.userid?.mobile}</span>
-            </div>
-          );
-        },
-      },
+      // {
+      //   headerName: "Mobile No.",
+      //   field: "mobile",
+      //   filter: true,
+      //   width: 200,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div className="d-flex align-items-center cursor-pointer">
+      //         <span>{params.data.userid?.mobile}</span>
+      //       </div>
+      //     );
+      //   },
+      // },
       {
         headerName: "DOB",
         field: "dob",

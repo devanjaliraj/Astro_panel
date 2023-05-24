@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, FormGroup, Input, Label, Row } from "reactstrap";
-import AgoraUIKit from "agora-react-uikit";
+import AgoraUIKit, { layout } from "agora-react-uikit";
 import "./../../../assets/scss/video.scss";
 
 import axiosConfig from "../../../axiosConfig";
@@ -32,6 +32,8 @@ function YourVideocall() {
     // Set the user ID.
     uid: 0,
     // Set the user role
+    // layout: layout.grid,
+    // layout: isPinned ? layout.pin : layout.grid,
   };
   const callbacks = {
     EndCall: () => {
@@ -143,7 +145,7 @@ function YourVideocall() {
                 <>
                   <div className="mx-2 mb-2">
                     <Button onClick={() => setVideoCall(true)} color="success">
-                      Click to join
+                      Click to join Now
                     </Button>
                   </div>
                 </>

@@ -60,32 +60,32 @@ class InTakeList extends React.Component {
         },
       },
 
-      {
-        headerName: "Email",
-        field: "email	",
-        filter: true,
-        width: 120,
-        cellRendererFramework: (params) => {
-          return (
-            <div className="d-flex align-items-center cursor-pointer">
-              <span>{params.data.userid?.email}</span>
-            </div>
-          );
-        },
-      },
-      {
-        headerName: "Mobile No.",
-        field: "mobile",
-        filter: true,
-        width: 120,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>{params.data.userid?.mobile}</span>
-            </div>
-          );
-        },
-      },
+      // {
+      //   headerName: "Email",
+      //   field: "email	",
+      //   filter: true,
+      //   width: 120,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div className="d-flex align-items-center cursor-pointer">
+      //         <span>{params.data.userid?.email}</span>
+      //       </div>
+      //     );
+      //   },
+      // },
+      // {
+      //   headerName: "Mobile No.",
+      //   field: "mobile",
+      //   filter: true,
+      //   width: 120,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>{params.data.userid?.mobile}</span>
+      //       </div>
+      //     );
+      //   },
+      // },
       {
         headerName: "Gender",
         field: "gender",
