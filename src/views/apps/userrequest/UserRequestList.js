@@ -101,13 +101,13 @@ class UserRideList extends React.Component {
       },
       {
         headerName: "Time Of Birth",
-        field: "tym_of_birth",
+        field: "date_of_time",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.tym_of_birth}</span>
+              <span>{params?.data?.p_date_of_time}</span>
             </div>
           );
         },
@@ -121,39 +121,39 @@ class UserRideList extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.birth_city}</span>
+              <span>{params.data.p_birthPlace}</span>
             </div>
           );
         },
       },
 
-      {
-        headerName: "Birth State",
-        field: "birth_state",
-        filter: true,
-        width: 200,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>{params.data.birth_state}</span>
-            </div>
-          );
-        },
-      },
+      // {
+      //   headerName: "Birth State",
+      //   field: "birth_state",
+      //   filter: true,
+      //   width: 200,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>{params.data.birth_state}</span>
+      //       </div>
+      //     );
+      //   },
+      // },
 
-      {
-        headerName: "Birth Country",
-        field: "birth_country",
-        filter: true,
-        width: 200,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>{params.data.birth_country}</span>
-            </div>
-          );
-        },
-      },
+      // {
+      //   headerName: "Birth Country",
+      //   field: "birth_country",
+      //   filter: true,
+      //   width: 200,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>{params.data.birth_country}</span>
+      //       </div>
+      //     );
+      //   },
+      // },
 
       {
         headerName: "Marital Status",
@@ -245,8 +245,10 @@ class UserRideList extends React.Component {
     let astroId = localStorage.getItem("astroId");
     console.log(astroId);
     await axiosConfig
-      .get(`/admin/get_chat_intake/${astroId}`)
+      // .get(`/admin/get_chat_intake/${astroId}`)
+      .get(`/admin/intekListByastro/${astroId}`)
       .then((response) => {
+        console.log(response.data.data);
         let rowData = response.data.data;
         console.log(rowData);
         this.setState({ rowData });
