@@ -29,12 +29,12 @@ function YourliveStreamone() {
     dualStreamMode: 0,
 
     // Set the channel name.
-    // channel: channelNamecreated,
-    channel: "anujesh",
+    channel: channelNamecreated,
+    // channel: "anujesh",
     // Pass your temp token here.
-    token:
-      "007eJxTYEg1WKq8YNrZq7Hry+t1pN+/dWLIDZotUv3YuP3lGv0TjsIKDOYphmkG5snmZmmWKSZmSakWZknJJmaJ5paGFhYmBkbGfocSUxoCGRmC7M+xMjJAIIjPzpCYV5qVWpzBwAAAcZYfjg==",
-    // token: Token || localStorage.getItem("astrotokenforvideocall"),
+    // token:
+    //   "007eJxTYEg1WKq8YNrZq7Hry+t1pN+/dWLIDZotUv3YuP3lGv0TjsIKDOYphmkG5snmZmmWKSZmSakWZknJJmaJ5paGFhYmBkbGfocSUxoCGRmC7M+xMjJAIIjPzpCYV5qVWpzBwAAAcZYfjg==",
+    token: Token || localStorage.getItem("astrotokenforvideocall"),
 
     // Set the user ID.
     uid: 1,
@@ -155,9 +155,9 @@ function YourliveStreamone() {
         </Row>
         <Row>
           <div className="container mt-1 mb-1">
-            <div style={{ display: "flex", width: "75vw", height: "80vh" }}>
+            {/* <div style={{ display: "flex", width: "75vw", height: "80vh" }}>
               <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
-            </div>
+            </div> */}
             {videoCall && Status === "Active" ? (
               <div style={{ display: "flex", width: "75vw", height: "80vh" }}>
                 <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />

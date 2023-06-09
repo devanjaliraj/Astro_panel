@@ -55,9 +55,7 @@ class PayoutReport extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>
-                {params.data.payout_amt}
-              </span>
+              <span>{params.data.payout_amt}</span>
             </div>
           );
         },
@@ -84,14 +82,11 @@ class PayoutReport extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>
-                {params.data.transactionId}
-              </span>
+              <span>{params.data.transactionId}</span>
             </div>
           );
         },
       },
-
 
       {
         headerName: "Payout Request Status",
@@ -104,8 +99,8 @@ class PayoutReport extends React.Component {
               {params.data.status}
             </div>
           ) : params.value === "Pending" ? (
-            <div className="badge badge-pill badge-warning">
-              {params.data.status}
+            <div className="badge badge-warning">
+              <b>{params.data.status}</b>
             </div>
           ) : null;
         },
@@ -161,15 +156,11 @@ class PayoutReport extends React.Component {
   async componentDidMount() {
     // let { id } = this.props.match.params;
 
-    await axiosConfig
-      .get(`/user/PayoutList`)
-      .then((response) => {
-        let rowData = response.data.data;
-        console.log(rowData);
-        this.setState({ rowData });
-      });
-
-
+    await axiosConfig.get(`/user/PayoutList`).then((response) => {
+      let rowData = response.data.data;
+      console.log(rowData);
+      this.setState({ rowData });
+    });
   }
 
   async runthisfunction(id) {
@@ -251,14 +242,14 @@ class PayoutReport extends React.Component {
                               {this.gridApi
                                 ? this.state.currenPageSize
                                 : "" * this.state.getPageSize -
-                                (this.state.getPageSize - 1)}{" "}
+                                  (this.state.getPageSize - 1)}{" "}
                               -{" "}
                               {this.state.rowData.length -
                                 this.state.currenPageSize *
-                                this.state.getPageSize >
-                                0
+                                  this.state.getPageSize >
+                              0
                                 ? this.state.currenPageSize *
-                                this.state.getPageSize
+                                  this.state.getPageSize
                                 : this.state.rowData.length}{" "}
                               of {this.state.rowData.length}
                               <ChevronDown className="ml-50" size={15} />

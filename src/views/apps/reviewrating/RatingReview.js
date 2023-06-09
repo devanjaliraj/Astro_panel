@@ -178,13 +178,11 @@ class RatingReview extends React.Component {
   };
   async componentDidMount() {
     let astroId = localStorage.getItem("astroId");
-    await axiosConfig
-      .get(`/user/allRevieAstro/63a5a63c2ca20d31009ebf02`)
-      .then((response) => {
-        let rowData = response.data.data;
-        console.log(rowData);
-        this.setState({ rowData });
-      });
+    await axiosConfig.get(`/user/allRevieAstro/${astroId}`).then((response) => {
+      let rowData = response.data.data;
+      console.log(rowData);
+      this.setState({ rowData });
+    });
   }
   //   async runthisfunction(id) {
   //     console.log(id);

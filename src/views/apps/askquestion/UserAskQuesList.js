@@ -77,7 +77,7 @@ class UserAskQuesList extends React.Component {
         headerName: "DOB",
         field: "dob",
         filter: true,
-        width: 100,
+        width: 120,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
@@ -91,7 +91,7 @@ class UserAskQuesList extends React.Component {
         headerName: "User Question",
         field: "question",
         filter: true,
-        width: 150,
+        width: 170,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
@@ -104,7 +104,7 @@ class UserAskQuesList extends React.Component {
         headerName: "Answer For Question",
         field: "answer",
         filter: true,
-        width: 150,
+        width: 170,
         cellRendererFramework: (params) => {
           return (
             <div>
@@ -118,7 +118,7 @@ class UserAskQuesList extends React.Component {
         headerName: "Status",
         field: "status",
         filter: true,
-        width: 100,
+        width: 120,
         cellRendererFramework: (params) => {
           return (
             <div>
@@ -131,7 +131,7 @@ class UserAskQuesList extends React.Component {
       {
         headerName: "Actions",
         field: "sortorder",
-        width: 100,
+        width: 150,
         cellRendererFramework: (params) => {
           return (
             <div className="actions cursor-pointer">

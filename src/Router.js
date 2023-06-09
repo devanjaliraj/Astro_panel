@@ -87,6 +87,7 @@ const videocallMain = lazy(() =>
 const liveStreaming = lazy(() =>
   import("./views/apps/astrochat/LiveAstromain")
 );
+
 // const liveStream = lazy(() => import("./views/apps/astrochat/LiveStreamdummy"));
 const Uploads = lazy(() => import("./views/apps/Uploads/UploadMain"));
 const Upload = lazy(() => import("./views/apps/Uploads/Uploads"));
@@ -354,7 +355,7 @@ const ReactTables = lazy(() =>
 const Aggrid = lazy(() => import("./views/tables/aggrid/Aggrid"));
 const DataTable = lazy(() => import("./views/tables/data-tables/DataTables"));
 const profile = lazy(() => import("./views/pages/profile/Profile"));
-const faq = lazy(() => import("./views/pages/faq/FAQ"));
+// const faq = lazy(() => import("./views/pages/faq/FAQ"));
 
 const knowledgeBase = lazy(() =>
   import("./views/pages/knowledge-base/KnowledgeBase")
@@ -1088,7 +1089,7 @@ class AppRouter extends React.Component {
               component={DataTable}
             />
             <AppRoute exact={true} path="/pages/profile" component={profile} />
-            <AppRoute exact={true} path="/pages/faq" component={faq} />
+            {/* <AppRoute exact={true} path="/pages/faq" component={faq} /> */}
             <AppRoute
               exact={true}
               path="/pages/knowledge-base"

@@ -202,8 +202,10 @@ class ConversationList extends React.Component {
     // let { id } = this.props.match.params;
     // let { userid } = this.props.match.params
     let userId = localStorage.getItem("userId");
+    let astroId = localStorage.getItem("astroId");
+
     await axiosConfig
-      .get(`/user/getOne_Conversation_Wallet/${userId}`)
+      .get(`/user/getOne_Conversation_Wallet/${astroId}`)
       .then((response) => {
         let rowData = response.data.data;
         console.log(rowData);
@@ -213,7 +215,7 @@ class ConversationList extends React.Component {
 
   async runthisfunction(id) {
     console.log(id);
-    await axios.get(`http://3.108.185.7:4000/admin/delcustomer/${id}`).then(
+    await axiosConfig.get(`/admin/delcustomer/${id}`).then(
       (response) => {
         console.log(response);
       },

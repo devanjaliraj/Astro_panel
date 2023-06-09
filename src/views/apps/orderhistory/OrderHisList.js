@@ -11,7 +11,6 @@ import {
   DropdownItem,
   DropdownToggle,
 } from "reactstrap";
-// import axiosConfig from "../../../axiosConfig";
 import axios from "axios";
 import { ContextLayout } from "../../../utility/context/Layout";
 import { AgGridReact } from "ag-grid-react";
@@ -21,6 +20,7 @@ import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
 import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
+import axiosConfig from "../../../axiosConfig";
 
 class OrderHisList extends React.Component {
   state = {
@@ -47,69 +47,98 @@ class OrderHisList extends React.Component {
       },
 
       {
-        headerName: "Title",
-        field: "title",
+        headerName: "OrderId",
+        field: "orderId",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>
-                {params.data.firstname} {params.data.lastname}
-              </span>
+              <span>{params.data?.orderId}</span>
             </div>
           );
         },
       },
 
       {
-        headerName: "Prediction Type",
-        field: "predictiontype	",
+        headerName: "Payment ID",
+        field: "Payment ID",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>{params.data.email}</span>
+              <span>{params.data?.razorpay_payment_id}</span>
             </div>
           );
         },
       },
       {
         headerName: "Description",
-        field: "description	",
+        field: "desc	",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>{params.data.email}</span>
+              <span>{params.data.product?.product?.desc}</span>
             </div>
           );
         },
       },
       {
-        headerName: "Date",
-        field: "date",
+        headerName: "image",
+        field: "image",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>{params.data.email}</span>
+              {/* <span>{params.data?.product.product.image}</span> */}
+              <img
+                width="50px"
+                src={params.data?.product?.product?.image[0]}
+                alt="imag"
+              />
             </div>
           );
         },
       },
       {
-        headerName: "Amount",
-        field: "time",
+        headerName: "Product Name",
+        field: "Product Name",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.mobile}</span>
+              <span>{params.data?.product?.product?.productname}</span>
+            </div>
+          );
+        },
+      },
+      {
+        headerName: "Product price",
+        field: "Product Price",
+        filter: true,
+        width: 200,
+        cellRendererFramework: (params) => {
+          return (
+            <div>
+              <span>{params.data?.product?.product?.price}</span>
+            </div>
+          );
+        },
+      },
+      {
+        headerName: "Product Name",
+        field: "Product Name",
+        filter: true,
+        width: 200,
+        cellRendererFramework: (params) => {
+          return (
+            <div>
+              <span>{params.data?.cartId?.total_amt}</span>
             </div>
           );
         },
@@ -117,13 +146,13 @@ class OrderHisList extends React.Component {
 
       {
         headerName: "Status",
-        field: "dateofregister",
+        field: "status",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.mobile}</span>
+              <span>{params.data?.product?.product?.status}</span>
             </div>
           );
         },
@@ -177,19 +206,10 @@ class OrderHisList extends React.Component {
     ],
   };
   async componentDidMount() {
-    let { id } = this.props.match.params;
-
-    await axios
-      .get(`http://3.108.185.7:4000/user/view_onecust/${id}`)
+    await axiosConfig
+      .get("/admin/admin_product_Orderslist")
       .then((response) => {
-        let rowData = response.data.data;
-        console.log(rowData);
-        this.setState({ rowData });
-      });
-
-    await axios
-      .get("http://3.108.185.7:4000/admin/allcustomer")
-      .then((response) => {
+        console.log(response);
         let rowData = response.data.data;
         console.log(rowData);
         this.setState({ rowData });
@@ -198,7 +218,7 @@ class OrderHisList extends React.Component {
 
   async runthisfunction(id) {
     console.log(id);
-    await axios.get(`http://3.108.185.7:4000/admin/delcustomer/${id}`).then(
+    await axiosConfig.get(`/admin/delcustomer/${id}`).then(
       (response) => {
         console.log(response);
       },
@@ -231,137 +251,135 @@ class OrderHisList extends React.Component {
   render() {
     const { rowData, columnDefs, defaultColDef } = this.state;
     return (
-      console.log(rowData),
-      (
-        <div>
-          <Breadcrumbs
-            breadCrumbTitle="Order History"
-            breadCrumbParent="Home"
-            breadCrumbActive="Order History"
-          />
+      // console.log(rowData),
+      <div>
+        <Breadcrumbs
+          breadCrumbTitle="Order History"
+          breadCrumbParent="Home"
+          breadCrumbActive="Order History"
+        />
 
-          <Row className="app-user-list">
-            <Col sm="12"></Col>
-            <Col sm="12">
-              <Card>
-                <Row className="m-2">
-                  <Col>
-                    <h1 sm="6" className="float-left">
-                      All Orders
-                    </h1>
-                  </Col>
-                  <Col>
-                    <Route
-                      render={({ history }) => (
-                        <Button
-                          className=" btn btn-success float-right"
-                          onClick={() =>
-                            history.push("/app/prediction/addprediction")
-                          }
-                        >
-                          Add New
-                        </Button>
-                      )}
-                    />
-                  </Col>
-                </Row>
-                <CardBody>
-                  {this.state.rowData === null ? null : (
-                    <div className="ag-theme-material w-100 my-2 ag-grid-table">
-                      <div className="d-flex flex-wrap justify-content-between align-items-center">
-                        <div className="mb-1">
-                          <UncontrolledDropdown className="p-1 ag-dropdown">
-                            <DropdownToggle tag="div">
-                              {this.gridApi
-                                ? this.state.currenPageSize
-                                : "" * this.state.getPageSize -
-                                  (this.state.getPageSize - 1)}{" "}
-                              -{" "}
-                              {this.state.rowData.length -
-                                this.state.currenPageSize *
-                                  this.state.getPageSize >
-                              0
-                                ? this.state.currenPageSize *
-                                  this.state.getPageSize
-                                : this.state.rowData.length}{" "}
-                              of {this.state.rowData.length}
-                              <ChevronDown className="ml-50" size={15} />
-                            </DropdownToggle>
-                            <DropdownMenu right>
-                              <DropdownItem
-                                tag="div"
-                                onClick={() => this.filterSize(20)}
-                              >
-                                20
-                              </DropdownItem>
-                              <DropdownItem
-                                tag="div"
-                                onClick={() => this.filterSize(50)}
-                              >
-                                50
-                              </DropdownItem>
-                              <DropdownItem
-                                tag="div"
-                                onClick={() => this.filterSize(100)}
-                              >
-                                100
-                              </DropdownItem>
-                              <DropdownItem
-                                tag="div"
-                                onClick={() => this.filterSize(134)}
-                              >
-                                134
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </UncontrolledDropdown>
-                        </div>
-                        <div className="d-flex flex-wrap justify-content-between mb-1">
-                          <div className="table-input mr-1">
-                            <Input
-                              placeholder="search..."
-                              onChange={(e) =>
-                                this.updateSearchQuery(e.target.value)
-                              }
-                              value={this.state.value}
-                            />
-                          </div>
-                          <div className="export-btn">
-                            <Button.Ripple
-                              color="primary"
-                              onClick={() => this.gridApi.exportDataAsCsv()}
+        <Row className="app-user-list">
+          <Col sm="12"></Col>
+          <Col sm="12">
+            <Card>
+              <Row className="m-2">
+                <Col>
+                  <h1 sm="6" className="float-left">
+                    All Orders
+                  </h1>
+                </Col>
+                <Col>
+                  <Route
+                    render={({ history }) => (
+                      <Button
+                        className=" btn btn-success float-right"
+                        onClick={() =>
+                          history.push("/app/prediction/addprediction")
+                        }
+                      >
+                        Add New
+                      </Button>
+                    )}
+                  />
+                </Col>
+              </Row>
+              <CardBody>
+                {this.state.rowData === null ? null : (
+                  <div className="ag-theme-material w-100 my-2 ag-grid-table">
+                    <div className="d-flex flex-wrap justify-content-between align-items-center">
+                      <div className="mb-1">
+                        <UncontrolledDropdown className="p-1 ag-dropdown">
+                          <DropdownToggle tag="div">
+                            {this.gridApi
+                              ? this.state.currenPageSize
+                              : "" * this.state.getPageSize -
+                                (this.state.getPageSize - 1)}{" "}
+                            -{" "}
+                            {this.state.rowData.length -
+                              this.state.currenPageSize *
+                                this.state.getPageSize >
+                            0
+                              ? this.state.currenPageSize *
+                                this.state.getPageSize
+                              : this.state.rowData.length}{" "}
+                            of {this.state.rowData.length}
+                            <ChevronDown className="ml-50" size={15} />
+                          </DropdownToggle>
+                          <DropdownMenu right>
+                            <DropdownItem
+                              tag="div"
+                              onClick={() => this.filterSize(20)}
                             >
-                              Export as CSV
-                            </Button.Ripple>
-                          </div>
+                              20
+                            </DropdownItem>
+                            <DropdownItem
+                              tag="div"
+                              onClick={() => this.filterSize(50)}
+                            >
+                              50
+                            </DropdownItem>
+                            <DropdownItem
+                              tag="div"
+                              onClick={() => this.filterSize(100)}
+                            >
+                              100
+                            </DropdownItem>
+                            <DropdownItem
+                              tag="div"
+                              onClick={() => this.filterSize(134)}
+                            >
+                              134
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </UncontrolledDropdown>
+                      </div>
+                      <div className="d-flex flex-wrap justify-content-between mb-1">
+                        <div className="table-input mr-1">
+                          <Input
+                            placeholder="search..."
+                            onChange={(e) =>
+                              this.updateSearchQuery(e.target.value)
+                            }
+                            value={this.state.value}
+                          />
+                        </div>
+                        <div className="export-btn">
+                          <Button.Ripple
+                            color="primary"
+                            onClick={() => this.gridApi.exportDataAsCsv()}
+                          >
+                            Export as CSV
+                          </Button.Ripple>
                         </div>
                       </div>
-                      <ContextLayout.Consumer>
-                        {(context) => (
-                          <AgGridReact
-                            gridOptions={{}}
-                            rowSelection="multiple"
-                            defaultColDef={defaultColDef}
-                            columnDefs={columnDefs}
-                            rowData={rowData}
-                            onGridReady={this.onGridReady}
-                            colResizeDefault={"shift"}
-                            animateRows={true}
-                            floatingFilter={false}
-                            pagination={true}
-                            paginationPageSize={this.state.paginationPageSize}
-                            pivotPanelShow="always"
-                            enableRtl={context.state.direction === "rtl"}
-                          />
-                        )}
-                      </ContextLayout.Consumer>
                     </div>
-                  )}
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-      )
+                    <ContextLayout.Consumer>
+                      {(context) => (
+                        <AgGridReact
+                          gridOptions={{}}
+                          rowSelection="multiple"
+                          defaultColDef={defaultColDef}
+                          columnDefs={columnDefs}
+                          rowData={rowData}
+                          onGridReady={this.onGridReady}
+                          colResizeDefault={"shift"}
+                          animateRows={true}
+                          floatingFilter={false}
+                          pagination={true}
+                          paginationPageSize={this.state.paginationPageSize}
+                          pivotPanelShow="always"
+                          enableRtl={context.state.direction === "rtl"}
+                        />
+                      )}
+                    </ContextLayout.Consumer>
+                  </div>
+                )}
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

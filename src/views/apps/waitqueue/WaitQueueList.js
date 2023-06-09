@@ -11,12 +11,11 @@ import {
   DropdownItem,
   DropdownToggle,
 } from "reactstrap";
-// import axiosConfig from "../../../axiosConfig";
+import axiosConfig from "../../../axiosConfig";
 import axios from "axios";
 import { ContextLayout } from "../../../utility/context/Layout";
 import { AgGridReact } from "ag-grid-react";
 import { Eye, Edit, Trash2, ChevronDown } from "react-feather";
-//import classnames from "classnames";
 import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
@@ -45,73 +44,83 @@ class WaitQueueList extends React.Component {
         // headerCheckboxSelectionFilteredOnly: true,
         // headerCheckboxSelection: true,
       },
-
+      {
+        headerName: "Conversation Id",
+        field: "conversationId",
+        filter: true,
+        width: 200,
+        cellRendererFramework: (params) => {
+          return (
+            <div className="d-flex align-items-center cursor-pointer">
+              <span>{params.data.conversationId}</span>
+            </div>
+          );
+        },
+      },
       {
         headerName: "Name",
-        field: "name",
+        field: "fullname",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>
-                {params.data.firstname} {params.data.lastname}
-              </span>
-            </div>
-          );
-        },
-      },
-
-      // {
-      //   headerName: "Mobile Number",
-      //   field: "mobile",
-      //   filter: true,
-      //   width: 200,
-      //   cellRendererFramework: (params) => {
-      //     return (
-      //       <div className="d-flex align-items-center cursor-pointer">
-      //         <span>{params.data.email}</span>
-      //       </div>
-      //     );
-      //   },
-      // },
-      {
-        headerName: "DOB",
-        field: "dob",
-        filter: true,
-        width: 200,
-        cellRendererFramework: (params) => {
-          return (
-            <div className="d-flex align-items-center cursor-pointer">
-              <span>{params.data.email}</span>
+              <span>{params.data.userid?.fullname}</span>
             </div>
           );
         },
       },
 
       {
-        headerName: "Gender",
-        field: "",
+        headerName: "Conversation Type",
+        field: "type",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>{params.data.email}</span>
+              <span>{params.data.type}</span>
             </div>
           );
         },
       },
 
       {
-        headerName: "Wait Queue Type",
-        field: "",
+        headerName: "Wait Queue",
+        field: "waiting_queue",
         filter: true,
         width: 200,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>{params.data.email}</span>
+              <span>{params.data.astroid?.waiting_queue}</span>
+            </div>
+          );
+        },
+      },
+
+      {
+        headerName: "Wait Time",
+        field: "waiting_tym",
+        filter: true,
+        width: 200,
+        cellRendererFramework: (params) => {
+          return (
+            <div className="d-flex align-items-center cursor-pointer">
+              <span>{params.data.astroid?.waiting_tym}</span>
+            </div>
+          );
+        },
+      },
+      {
+        headerName: "status",
+        field: "status",
+        filter: true,
+        width: 200,
+        cellRendererFramework: (params) => {
+          return (
+            <div className="d-flex align-items-center cursor-pointer">
+              <span>{params.data?.status}</span>
             </div>
           );
         },
@@ -165,18 +174,18 @@ class WaitQueueList extends React.Component {
     ],
   };
   async componentDidMount() {
-    let { id } = this.props.match.params;
+    // let { id } = this.props.match.params;
+    // await axios
+    //   .get(`http://3.108.185.7:4000/user/view_onecust/${id}`)
+    //   .then((response) => {
+    //     let rowData = response.data.data;
+    //     console.log(rowData);
+    //     this.setState({ rowData });
+    //   });
+    const astroId = localStorage.getItem("astroId");
 
-    await axios
-      .get(`http://3.108.185.7:4000/user/view_onecust/${id}`)
-      .then((response) => {
-        let rowData = response.data.data;
-        console.log(rowData);
-        this.setState({ rowData });
-      });
-
-    await axios
-      .get("http://3.108.185.7:4000/admin/allcustomer")
+    await axiosConfig
+      .get(`/user/wait_queue_list/${astroId}`)
       .then((response) => {
         let rowData = response.data.data;
         console.log(rowData);
@@ -186,7 +195,7 @@ class WaitQueueList extends React.Component {
 
   async runthisfunction(id) {
     console.log(id);
-    await axios.get(`http://3.108.185.7:4000/admin/delcustomer/${id}`).then(
+    await axios.get(`/admin/delcustomer/${id}`).then(
       (response) => {
         console.log(response);
       },

@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 // import axios from "axios";
 import { Route } from "react-router-dom";
 import swal from "sweetalert";
-// import { history } from '../../../../history'
+// import { history } from "../../../../history";
 import axiosConfig from "../../../../axiosConfig";
 
 class LoginJWT extends React.Component {
@@ -22,7 +22,10 @@ class LoginJWT extends React.Component {
   handlechange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
-
+  handleSignUp = (e) => {
+    window.location.replace("/#/pages/register");
+    // this.props.history.push("/pages/register");
+  };
   handleLogin = (e) => {
     e.preventDefault();
     axiosConfig
@@ -54,11 +57,12 @@ class LoginJWT extends React.Component {
       })
 
       .then((response) => {
-        console.log(response.data);
-        console.log(response.data._id);
+        // console.log(response.data);
+        // console.log(response.data._id);
         if (response.data.msg === "otp verified") {
           swal("Login Successfull");
           localStorage.setItem("astroId", response.data._id);
+          localStorage.setItem("astroData", JSON.stringify(response.data));
           // localStorage.setItem("user_id", response.data.data._id);
           // this.props.history.push("/");
           window.location.replace("/#/");
@@ -88,7 +92,7 @@ class LoginJWT extends React.Component {
                   placeholder="Enter OTP"
                   value={this.state.otp}
                   onChange={this.handlechange}
-                // required
+                  // required
                 />
 
                 <Label>Phone</Label>
@@ -133,6 +137,28 @@ class LoginJWT extends React.Component {
                 />
               </div>
             </Form>
+
+            <div className="d-flex mt-2">
+              <div>New On Our PlatForm </div>
+              <Route
+                render={({ history }) => (
+                  <div
+                    className="ml-1"
+                    style={{ color: "blue", cursor: "pointer" }}
+                    onClick={this.handleSignUp}
+                  >
+                    Sign up
+                  </div>
+                )}
+              />
+              {/* <Route
+                render={({ history }) => (
+                  <button color="primary" type="submit">
+                    Sign up
+                  </button>
+                )}
+              /> */}
+            </div>
           </CardBody>
         )}
       </React.Fragment>
@@ -144,4 +170,10 @@ const mapStateToProps = (state) => {
     values: state.auth.login,
   };
 };
+
 export default connect(mapStateToProps, { loginWithJWT })(LoginJWT);
+// export function getastroID() {
+//   const name = JSON.parse(localStorage.getItem("astroData"));
+//   const astroname = name.fullname;
+//   return astroname;
+// }

@@ -1,120 +1,840 @@
 import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardBody,
-  Row,
-  Col,
-  Nav,
-  NavItem,
-  // NavLink,
-  TabContent,
-  TabPane,
-} from "reactstrap";
-// import classnames from "classnames";
-import RegisterFirebase from "./RegisterFirebase";
-import RegisterAuth0 from "./RegisterAuth0";
-import RegisterJWT from "./RegisterJWT";
-import registerImg from "../../../../assets/img/pages/register.jpg";
-import "../../../../assets/scss/pages/authentication.scss";
-
+import swal from "sweetalert";
+import Stepper from "bs-stepper";
+import axiosConfig from "../../../../axiosConfig";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bs-stepper/dist/css/bs-stepper.min.css";
+import { Container, Row, Col, Input, Form, Button, Label } from "reactstrap";
+import "../../../../assets/scss/pages/users.scss";
 class Register extends React.Component {
-  state = {
-    activeTab: "1",
+  constructor() {
+    super();
+    this.state = {
+      otp: "",
+      email: "",
+      mobile: "",
+    };
+    this.state = {
+      gender: "",
+      dob: "",
+      primary_skills: "",
+      all_skills: "",
+      language: "",
+      exp_in_years: "",
+      conrubute_hrs: "",
+      hear_abt_astrology: "",
+      other_online_platform: "",
+      why_onboard_you: "",
+      suitable_tym_interview: "",
+      crnt_city: "",
+      income_src: "",
+      highest_qualification: "",
+      degree_deploma: "",
+      clg_scl_name: "",
+      lrn_abt_astrology: "",
+      insta_link: "",
+      fb_link: "",
+      linkedln_link: "",
+      youtube_link: "",
+      website_link: "",
+      anybody_prefer: "",
+      min_earning_expe: "",
+      max_earning_expe: "",
+      long_bio: "",
+      status: "Active",
+      callCharge: "",
+      fullname: "",
+      img: {},
+      min_amount: "",
+      max_amount: "",
+      availability: {},
+      Monday: "",
+      Tuesday: "",
+      Wednesday: "",
+      Thursday: "",
+      Friday: "",
+      Saturday: "",
+      Sunday: "",
+      password: "",
+      cnfmPassword: "",
+      // userId: "",
+      approvedstatus: "false",
+      otpverify: "true",
+      selectedName: "",
+      selectedFile: {},
+
+      // __v: 0,
+    };
+  }
+  //Image Submit Handler
+  onChangeHandler = (event) => {
+    this.setState({ selectedFile: event.target.files[0] });
+    this.setState({ selectedName: event.target.files[0].name });
+    console.log(event.target.files[0]);
   };
-  toggle = (tab) => {
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab,
-      });
+
+  componentDidMount() {
+    this.stepper = new Stepper(document.querySelector("#stepper1"), {
+      linear: false,
+      animation: true,
+    });
+  }
+
+  handlechange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  changeHandler = (e) => {
+    // e.preventDefault();
+    console.log("value", e.target.value);
+    this.setState({ [e.target.name]: e.target.value });
+  };
+  // submitHandlerLogin = (e) => {
+  //   e.preventDefault();
+  //   axiosConfig
+  //     .post("/user/signup", this.state)
+  //     .then((response) => {
+  //       console.log(response);
+  //       localStorage.setItem("auth-token", response.data.token);
+  //       this.setState({
+  //         token: response.data.token,
+  //       });
+  //       swal("Success!", " Register Successful Done!", "success");
+  //       this.props.history.push("/otpverify");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response);
+  //       swal("Error!", "Something went wrong", "error");
+  //     });
+  // };
+
+  submitHandler = (e) => {
+    e.preventDefault();
+    let astroId = localStorage.getItem("astroId");
+    console.log("astroId", astroId);
+    const data = new FormData();
+    data.append("_id", astroId);
+    data.append("gender", this.state.gender);
+    data.append("dob", this.state.dob);
+    data.append("primary_skills", this.state.primary_skills);
+    data.append("language", this.state.language);
+    data.append("all_skills", this.state.all_skills);
+    data.append("exp_in_years", this.state.exp_in_years);
+    data.append("conrubute_hrs", this.state.conrubute_hrs);
+    data.append("hear_abt_astrology", this.state.hear_abt_astrology);
+    data.append("other_online_platform", this.state.other_online_platform);
+    data.append("why_onboard_you", this.state.why_onboard_you);
+    data.append("suitable_tym_interview", this.state.suitable_tym_interview);
+    data.append("crnt_city", this.state.crnt_city);
+    data.append("income_src", this.state.income_src);
+    data.append("highest_qualification", this.state.highest_qualification);
+    data.append("degree_deploma", this.state.degree_deploma);
+    data.append("clg_scl_name", this.state.clg_scl_name);
+    data.append("lrn_abt_astrology", this.state.lrn_abt_astrology);
+    data.append("insta_link", this.state.insta_link);
+    data.append("fb_link", this.state.fb_link);
+    data.append("linkedln_link", this.state.linkedln_link);
+    data.append("youtube_link", this.state.youtube_link);
+    data.append("website_link", this.state.website_link);
+    data.append("anybody_prefer", this.state.anybody_prefer);
+    data.append("min_earning_expe", this.state.min_earning_expe);
+    data.append("max_earning_expe", this.state.max_earning_expe);
+    data.append("long_bio", this.state.long_bio);
+    data.append("status", this.state.status);
+    data.append("callCharge", this.state.callCharge);
+    data.append("fullname", this.state.fullname);
+    data.append("availability", this.state.availability);
+    data.append("max_amount", this.state.max_amount);
+    data.append("min_amount", this.state.min_amount);
+    data.append("password", this.state.password);
+    data.append("cnfmPassword", this.state.cnfmPassword);
+    data.append("sunday", this.state.Sunday);
+    data.append("monday", this.state.Monday);
+    data.append("tuesday", this.state.Tuesday);
+    data.append("wednesday", this.state.Wednesday);
+    data.append("thursday", this.state.Thursday);
+    data.append("friday", this.state.Friday);
+    data.append("saturday", this.state.Saturday);
+
+    // data.append("email", this.state.email);
+    // data.append("mobile", this.state.mobile);
+    if (this.state.selectedFile !== null) {
+      data.append("img", this.state.selectedFile);
     }
+    axiosConfig
+      .post(`/user/editAstroDetails/${this.state.userId}`, data)
+      .then((response) => {
+        console.log(response.data);
+        swal("Success!", "Submitted SuccessFull!", "success");
+        this.props.history.push("/");
+      })
+      .catch((error) => {
+        swal("Error!", "You clicked the button!", "error");
+        console.log(error.response);
+      });
   };
+
+  stepperFirst = () => {
+    const { email, mobile, fullname } = this.state;
+    axiosConfig
+      .post("/user/signup", {
+        mobile: parseInt(mobile) != NaN ? parseInt(mobile) : "null",
+        email: email,
+        fullname: fullname,
+        moblie: mobile,
+      })
+      .then((response) => {
+        this.stepper.next();
+        // console.log("UserDetails", response.data);
+        let userInfo = response.data.user;
+        localStorage.setItem("astroId", response.data._id);
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log(error.response);
+        swal("Error!", "please fill all details ", "error");
+      });
+  };
+  stepperSecond = () => {
+    const { otp, mobile } = this.state;
+    axiosConfig
+      .post("/user/verifyotp", {
+        otp: parseInt(otp, mobile) != NaN ? parseInt(otp) : "null",
+        otp: otp,
+        mobile: mobile,
+      })
+      .then((response) => {
+        this.stepper.next();
+        let userInfo = response.data.user;
+        this.setState({ userId: response.data._id });
+        localStorage.setItem("user_id", response.data._id);
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log(error.response);
+        swal("Error!", " Wrong UserName or Password", "error");
+      });
+  };
+
   render() {
     return (
-      <Row className="m-0 justify-content-center">
-        <Col
-          sm="8"
-          xl="10"
-          lg="10"
-          md="10"
-          className="d-flex justify-content-center"
-        >
-          <Card className="bg-authentication rounded-0 mb-0 w-100">
-            <Row className="m-0">
-              <Col
-                lg="4"
-                className="d-lg-block d-none text-center align-self-center px-1 py-0"
-              >
-                <img className="mr-1" src={registerImg} alt="registerImg" />
-              </Col>
-              <Col lg="8" md="12" className="p-0">
-                <Card className="rounded-0 mb-0 p-2">
-                  <CardHeader className="pb-1 pt-50">
-                    <CardTitle>
-                      <h4 className="mb-0">Create Account</h4>
-                    </CardTitle>
-                  </CardHeader>
-                  <p className="px-2 auth-title mb-0">
-                    Fill the below form to create a new AES account.
-                  </p>
-                  <Nav tabs className="px-2">
-                    <NavItem>
-                      {/* <NavLink
-                        className={classnames({
-                          active: this.state.activeTab === "1"
+      <Container className="setpage">
+        <section className="ptb-30 ">
+          <div className="stp-1">
+            {/* <h2 className="th-1">Astrogyata</h2> */}
+            <h4 className="th-2">Astrologer Register</h4>
+            <div id="stepper1" className="bs-stepper">
+              <div className="bs-stepper-header">
+                <div className="step" data-target="#test-l-1">
+                  <button className="step-trigger">
+                    <span className="bs-stepper-circle">1</span>
+                    <span className="bs-stepper-label">Personal Details</span>
+                  </button>
+                </div>
+                <div className="line"></div>
+                <div className="step" data-target="#test-otp">
+                  <button className="step-trigger">
+                    <span className="bs-stepper-circle">2</span>
+                    <span className="bs-stepper-label">Verify OTP</span>
+                  </button>
+                </div>
+                <div className="line"></div>
+                <div className="step" data-target="#test-l-2">
+                  <button className="step-trigger">
+                    <span className="bs-stepper-circle">3</span>
+                    <span className="bs-stepper-label">Skill Details</span>
+                  </button>
+                </div>
+                <div className="line"></div>
+                <div className="step" data-target="#test-l-3">
+                  <button className="step-trigger">
+                    <span className="bs-stepper-circle">4</span>
+                    <span className="bs-stepper-label">Other Details</span>
+                  </button>
+                </div>
+                {/* <div className="line"></div>
+                <div className="step" data-target="#test-l-4">
+                  <button className="step-trigger">
+                    <span className="bs-stepper-circle">5</span>
+                    <span className="bs-stepper-label">Availability </span>
+                  </button>
+                </div> */}
+              </div>
+              <div className="bs-stepper-content">
+                <Form className="m-1" onSubmit={this.submitHandler}>
+                  <div id="test-l-1" className="content">
+                    <Row>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Name*</Label>
+                          <Input
+                            type="text"
+                            name="fullname"
+                            required
+                            placeholder="Enter Your Fullname"
+                            value={this.state.fullname}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Email address*</Label>
+                          <Input
+                            type="email"
+                            name="email"
+                            required
+                            placeholder="Enter Your email"
+                            value={this.state.email}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Mobile Number*</Label>
+                          <Input
+                            type="text"
+                            name="mobile"
+                            required
+                            placeholder="Enter Your Number"
+                            value={this.state.mobile}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => this.stepperFirst()}
+                    >
+                      Next
+                    </button>
+                  </div>
+                  <div id="test-otp" className="content">
+                    <Row>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>OTP*</Label>
+                          <Input
+                            type="text"
+                            required
+                            name="otp"
+                            value={this.state.otp}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => this.stepperSecond()}
+                    >
+                      Next
+                    </button>
+                  </div>
+                  <div id="test-l-2" className="content">
+                    <Row>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Gender*</Label>
+                          <select
+                            className="form-control"
+                            value={this.state.gender}
+                            onChange={this.changeHandler}
+                            name="gender"
+                          >
+                            <option selected>--select--</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                          </select>
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>DOB*</Label>
+                          <Input
+                            type="date"
+                            required
+                            name="dob"
+                            maxLength="8"
+                            value={this.state.dob}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Primary Skills*</Label>
+                          <Input
+                            placeholder="Primary Skills"
+                            name="primary_skills"
+                            type="text"
+                            value={this.state.primary_skills}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>All Skills*</Label>
+                          <Input
+                            placeholder="All Skills"
+                            name="all_skills"
+                            type="text"
+                            value={this.state.all_skills}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Language*</Label>
+                          <Input
+                            placeholder="language"
+                            name="language"
+                            type="text"
+                            value={this.state.language}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Minimum Amount*</Label>
+                          <Input
+                            placeholder="Enter Amount"
+                            name="min_amount"
+                            type="text"
+                            value={this.state.min_amount}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      {/* <h5>Availability</h5>
+                        <Col md="3">
+                          <div className="form-group mtb-10">
+                            <Label>Day</Label>
+                            <Input
+                              placeholder="Availability Day"
+                              name="day"
+                              type="text"
+                              value={this.state.availability}
+                              onChange={this.changeHandler}
+                            />
+                          </div>
+
+                        </Col>
+                        <Col md="3">
+                          <div class="form-group mtb-10">
+                            <Label>Time</Label>
+                            <Select
+                              isMulti
+                              name="time"
+                              required
+                              // className="basic-multi-select"
+                              classNamePrefix="select"
+                              onChange={this.changeHandler}
+                            />
+                          </div>
+                        </Col> */}
+
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Maximum Amount*</Label>
+                          <Input
+                            placeholder="Enter Amount"
+                            name="max_amount"
+                            type="text"
+                            value={this.state.max_amount}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Experience in years*</Label>
+                          <Input
+                            type="text"
+                            name="exp_in_years"
+                            required
+                            value={this.state.exp_in_years}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div class="form-group mtb-10">
+                          <Label>
+                            How many hours you can contribute daily?*
+                          </Label>
+                          <Input
+                            type="text"
+                            name="conrubute_hrs"
+                            required
+                            value={this.state.conrubute_hrs}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Where did you hear about Astrotalk?*</Label>
+                          <Input
+                            type="text"
+                            name="hear_abt_astrology"
+                            value={this.state.hear_abt_astrology}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="12">
+                        <p className="mb-0 mt-10">
+                          Are you working on any other online platform?*
+                        </p>
+                        <Row>
+                          <Col md="6">
+                            <div className="form-group mtb-10">
+                              <Label>Name of platform</Label>
+                              <Input
+                                type="text"
+                                name="other_online_platform"
+                                value={this.state.other_online_platform}
+                                onChange={this.changeHandler}
+                              />
+                            </div>
+                          </Col>
+                          <Col md="6">
+                            <div className="form-group mtb-10">
+                              <Label>Monthly Earning</Label>
+                              <Input type="text" />
+                            </div>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => this.stepper.next()}
+                    >
+                      Next
+                    </button>
+                  </div>
+                  <div id="test-l-3" className="content mt-5">
+                    <Row>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>
+                            Why do you think we should onboard you?*
+                          </Label>
+                          <Input
+                            type="text"
+                            required
+                            name="why_onboard_you"
+                            value={this.state.why_onboard_you}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>What is a suitable time for interview*</Label>
+                          <Input
+                            type="text"
+                            required
+                            name="suitable_tym_interview"
+                            value={this.state.suitable_tym_interview}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Which city do you currently live in?</Label>
+                          <Input
+                            type="text"
+                            required
+                            name="crnt_city"
+                            value={this.state.crnt_city}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Call Charge</Label>
+                          <Input
+                            type="text"
+                            required
+                            name="callCharge"
+                            value={this.state.callCharge}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>
+                            Main source of business (other than astrology)*
+                          </Label>
+                          <Input
+                            placeholder="source of business"
+                            name="income_src"
+                            type="text"
+                            value={this.state.income_src}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Select your highest qualification*</Label>
+                          <Input
+                            placeholder="qualification"
+                            name="highest_qualification"
+                            type="text"
+                            value={this.state.highest_qualification}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Degree/Diploma*</Label>
+                          <Input
+                            placeholder="Degree/Diploma"
+                            name="degree_deploma"
+                            type="text"
+                            value={this.state.degree_deploma}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>College/School/University*</Label>
+                          <Input
+                            type="text"
+                            name="clg_scl_name"
+                            required
+                            value={this.state.clg_scl_name}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>From where did you learn Astrology?</Label>
+                          <Input
+                            type="text"
+                            name="lrn_abt_astrology"
+                            required
+                            value={this.state.lrn_abt_astrology}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <Label>User Image</Label>
+                        <Input
+                          className="form-control"
+                          type="file"
+                          name="img"
+                          onChange={this.onChangeHandler}
+                        />
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Instagram profile link</Label>
+                          <Input
+                            type="text"
+                            name="insta_link"
+                            required
+                            value={this.state.insta_link}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Facebook profile link</Label>
+                          <Input
+                            type="text"
+                            name="fb_link"
+                            required
+                            value={this.state.fb_link}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>LinkedIn profile link</Label>
+                          <Input
+                            type="text"
+                            name="linkedln_link"
+                            required
+                            value={this.state.linkedln_link}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Youtube channel link</Label>
+                          <Input
+                            type="text"
+                            name="youtube_link"
+                            required
+                            value={this.state.youtube_link}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Name of the person who referred you?</Label>
+                          <Input
+                            type="text"
+                            name="anybody_prefer"
+                            required
+                            value={this.state.anybody_prefer}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>
+                            Minimum Earning Expectation from Astrogyata*
+                          </Label>
+                          <Input
+                            type="text"
+                            name="min_earning_expe"
+                            required
+                            value={this.state.min_earning_expe}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>
+                            Maximum Earning Expectation from Astrogyata*
+                          </Label>
+                          <Input
+                            type="text"
+                            name="max_earning_expe"
+                            required
+                            value={this.state.max_earning_expe}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Website profile link</Label>
+                          <Input
+                            type="text"
+                            name="website_link"
+                            required
+                            value={this.state.website_link}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label>Password</Label>
+                          <Input
+                            type="password"
+                            name="password"
+                            required
+                            value={this.state.password}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="form-group mtb-10">
+                          <Label> Confirm Password</Label>
+                          <Input
+                            type="password"
+                            name="cnfmPassword"
+                            required
+                            value={this.state.cnfmPassword}
+                            onChange={this.changeHandler}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="12">
+                        <div className="form-group mtb-10">
+                          <Label>Long bio*</Label>
+                          <textarea
+                            type="text"
+                            className="form-control"
+                            name="long_bio"
+                            required
+                            value={this.state.long_bio}
+                            onChange={this.changeHandler}
+                            placeholder="Please let us know more about you"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                    <p className="ptb-10">
+                      You can reach out to us for Astrologer onboarding support
+                      team at onboarding@Astrogyata.com in case of any issues or
+                      queries.
+                    </p>
+                    {/* <button className="btn btn-primary" onClick={() => this.s}>
+                      Submit
+                    </button> */}
+                    <Button type="submit" className="btn btn-primary mt-5">
+                      Submit
+                    </Button>
+                  </div>
+                  {/* <div id="test-l-4" className="content"> */}
+                  {/* <div>
+                        {inputList.map((x, i) => {
+                          return (
+                            <div className="box">
+                              <input
+                                name="firstName"
+                                placeholder="Enter First Name"
+                                value={x.firstName}
+                                onChange={e => handleInputChange(e, i)}
+                              />
+                              <input
+                                className="ml10"
+                                name="lastName"
+                                placeholder="Enter Last Name"
+                                value={x.lastName}
+                                onChange={e => handleInputChange(e, i)}
+                              />
+                              <div className="btn-box">
+                                {inputList.length !== 1 && <button
+                                  className="mr10"
+                                  onClick={() => handleRemoveClick(i)}>Remove</button>}
+                                {inputList.length - 1 === i && <button onClick={handleAddClick}>Add</button>}
+                              </div>
+                            </div>
+                          );
                         })}
-                        onClick={() => {
-                          this.toggle("1")
-                        }}
-                      >
-                        JWT
-                      </NavLink> */}
-                    </NavItem>
-                    <NavItem>
-                      {/* <NavLink
-                        className={classnames({
-                          active: this.state.activeTab === "2",
-                        })}
-                        onClick={() => {
-                          this.toggle("2");
-                        }}
-                      >
-                        Firebase
-                      </NavLink> */}
-                    </NavItem>
-                    <NavItem>
-                      {/* <NavLink
-                        className={classnames({
-                          active: this.state.activeTab === "3",
-                        })}
-                        onClick={() => {
-                          this.toggle("3");
-                        }}
-                      >
-                        Auth0
-                      </NavLink> */}
-                    </NavItem>
-                  </Nav>
-                  <CardBody className="pt-1 pb-50">
-                    <TabContent activeTab={this.state.activeTab}>
-                      <TabPane tabId="1">
-                        <RegisterJWT />
-                      </TabPane>
-                      <TabPane tabId="2">
-                        <RegisterFirebase />
-                      </TabPane>
-                      <TabPane tabId="3">
-                        <RegisterAuth0 />
-                      </TabPane>
-                    </TabContent>
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-          </Card>
-        </Col>
-      </Row>
+                      </div> */}
+                  {/* <Avilitiy /> */}
+                  {/* <Button type="submit" className="btn btn-primary mt-5">
+                      Submit
+                    </Button> */}
+                  {/* </div> */}
+                </Form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Container>
     );
   }
 }

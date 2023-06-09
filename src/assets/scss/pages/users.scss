@@ -87,3 +87,35 @@ button.denger.media-heading.gt-2.btn.btn-secondary {
   height: 210px !important;
   /* height: inherit; */
 }
+
+
+
+/** User pages **/
+.stp-1 {
+  width: 70%;
+  background: #fff;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 20px;
+  height: 90vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.stp-1::-webkit-scrollbar {
+  width: 5px;
+}
+
+
+.stp-1::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.stp-1::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.setpage {
+  height: 100%;
+}
